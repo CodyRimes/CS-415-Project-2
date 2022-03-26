@@ -1,0 +1,30 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/Cody/CLionProjects/CS415Project2/Graph.cpp
+Graph.hpp
+C:/Users/Cody/CLionProjects/CS415Project2/Graph.hpp
+
+C:/Users/Cody/CLionProjects/CS415Project2/Graph.hpp
+GraphNode.hpp
+C:/Users/Cody/CLionProjects/CS415Project2/GraphNode.hpp
+vector
+-
+iostream
+-
+
+C:/Users/Cody/CLionProjects/CS415Project2/GraphNode.cpp
+GraphNode.hpp
+C:/Users/Cody/CLionProjects/CS415Project2/GraphNode.hpp
+
+C:/Users/Cody/CLionProjects/CS415Project2/GraphNode.hpp
+
+C:/Users/Cody/CLionProjects/CS415Project2/main.cpp
+iostream
+-
+
