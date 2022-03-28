@@ -82,7 +82,7 @@ void Graph::AddVertexNode(GraphNode* IncomingGraphNode)
 }
 //Add an edge to a particular vertex/graph node in our graph
 //"We make edges to indicate when there is no overlap" - Dr. Gill
-//i.e. we will only be adding edges in our adjacency list when two clients do not have overlapping time schedules and can be a part of a possible solution 
+//i.e. we will only be adding edges in our adjacency list when two clients do not have overlapping time schedules and can be a part of a possible solution
 void Graph::AddEdge()
 {
 
@@ -90,4 +90,11 @@ void Graph::AddEdge()
 void Graph::TopologicalSort()
 {
 
+}
+void Graph::PrintGraph()
+{
+    for (int i = 0; i < AdjacencyList.size(); i++)
+    {
+        AdjacencyList.at(i)->printGraphNode();
+    }
 }
