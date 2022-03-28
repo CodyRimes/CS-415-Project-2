@@ -20,14 +20,17 @@ private:
     int NumberOfEdges;
     int NumberOfVertexNodes;
     vector <GraphNode *> AdjacencyList;
+    //Do we need these?
+    GraphNode* StartNode;
+    GraphNode* EndNode;
 public:
     //Constructor
     Graph();
     //Parameterized constructor
     Graph(string InputFileName);
-
     void AddEdge();
-    void AddVertexNode();
+    void AddVertexNode(GraphNode *);
+    void TopologicalSort();
     void PrintGraph();
 
 

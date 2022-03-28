@@ -8,5 +8,7 @@ CMakeFiles\CS415Project2.dir\Graph.cpp.obj: ..\GraphNode.hpp
 CMakeFiles\CS415Project2.dir\GraphNode.cpp.obj: ..\GraphNode.cpp
 CMakeFiles\CS415Project2.dir\GraphNode.cpp.obj: ..\GraphNode.hpp
 
+CMakeFiles\CS415Project2.dir\main.cpp.obj: ..\Graph.hpp
+CMakeFiles\CS415Project2.dir\main.cpp.obj: ..\GraphNode.hpp
 CMakeFiles\CS415Project2.dir\main.cpp.obj: ..\main.cpp
 

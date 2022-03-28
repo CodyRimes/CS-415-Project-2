@@ -16,8 +16,17 @@ private:
 
 public:
     GraphNode();
-    //Parameterized constructor?
-    //GraphNode(int?);
+    //Parameterized constructor
+    GraphNode(int Start, int End, int AmountToPay);
+    //Setters for private attributes (in case we need to do so later on in the program)
+    void SetStartDate(int Start);
+    void SetEndDate(int EndD);
+    void SetAmountWillingToPay(int AmountToPay);
+    //Getters for private attributes (in case we need to do so later on in the program)
+    int GetStartDate();
+    int GetEndDate();
+    int GetAmountWillingToPay();
+    void printGraphNode();
 
 
 };
