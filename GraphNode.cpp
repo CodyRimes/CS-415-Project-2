@@ -39,6 +39,14 @@ void GraphNode::SetAmountWillingToPay(int Amount)
 {
     AmountWillingToPay = Amount;
 }
+void GraphNode::SetPreviousNodePointer(GraphNode* IncomingGraphNodePointer)
+{
+    previousNode = IncomingGraphNodePointer;
+}
+void GraphNode::SetNextNodePointer(GraphNode* IncomingGraphNodePointer)
+{
+    nextNode = IncomingGraphNodePointer;
+}
 int GraphNode::GetStartDate()
 {
     return StartDate;
@@ -50,6 +58,14 @@ int GraphNode::GetEndDate()
 int GraphNode::GetAmountWillingToPay()
 {
     return AmountWillingToPay;
+}
+GraphNode* GraphNode::GetPreviousNodePointer()
+{
+    return previousNode;
+}
+GraphNode* GraphNode::GetNextNodePointer()
+{
+    return nextNode;
 }
 void GraphNode::printGraphNode()
 {

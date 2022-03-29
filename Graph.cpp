@@ -83,7 +83,13 @@ void Graph::AddVertexNode(GraphNode* IncomingGraphNode)
 //Add an edge to a particular vertex/graph node in our graph
 void Graph::AddEdge(GraphNode* ClientToHaveEdgeAddedTo, GraphNode* ClientThatIsAPossiblePath)
 {
-    
+    //First we need to make a copy of the ClientThatIsAPossiblePath's node, that way we don't mess up the original that's currently in the adjacency list
+    GraphNode* CopyOfClientThatIsAPossiblePathNode = new GraphNode(ClientThatIsAPossiblePath->GetStartDate(), ClientThatIsAPossiblePath->GetEndDate(), ClientThatIsAPossiblePath->GetAmountWillingToPay());
+
+    //We will then have the ClientToHaveEdgeAddedTo node nextNode pointer set to point to that ClientThatIsAPossiblePath node and vice versa (have the ClientThatIsAPossiblePath previous pointer set to point
+    //back at the ClientToHaveEdgeAddedTo node)
+    ClientToHaveEdgeAddedTo->SetNextNodePointer(CopyOfClientThatIsAPossiblePathNode);
+    CopyOfClientThatIsAPossiblePathNode->SetPreviousNodePointer(ClientToHaveEdgeAddedTo);
 }
 
 void Graph::FindGraphEdgeConnections()

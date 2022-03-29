@@ -24,10 +24,15 @@ public:
     void SetStartDate(int Start);
     void SetEndDate(int EndD);
     void SetAmountWillingToPay(int AmountToPay);
+    void SetPreviousNodePointer(GraphNode* IncomingGraphNodePointer);
+    void SetNextNodePointer(GraphNode* IncomingGraphNodePointer);
     //Getters for private attributes (in case we need to do so later on in the program)
     int GetStartDate();
     int GetEndDate();
     int GetAmountWillingToPay();
+    GraphNode* GetPreviousNodePointer();
+    GraphNode* GetNextNodePointer();
+
     void printGraphNode();
 
 
