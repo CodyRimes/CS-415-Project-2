@@ -10,10 +10,11 @@ using namespace std;
 //Constructor
 GraphNode::GraphNode()
 {
-    //Intialize private attributes
+    //Intialize private attributes to a default value when creating a GraphNode object
     StartDate = 0;
     EndDate = 0;
     AmountWillingToPay = 0;
+    IncomingEdges = 0;
     previousNode = nullptr;
     nextNode = nullptr;
 
@@ -24,6 +25,7 @@ GraphNode::GraphNode(int Start, int End, int AmountToPay)
     StartDate = Start;
     EndDate = End;
     AmountWillingToPay = AmountToPay;
+    IncomingEdges = 0;
     previousNode = nullptr;
     nextNode = nullptr;
 }
@@ -38,6 +40,10 @@ void GraphNode::SetEndDate(int End)
 void GraphNode::SetAmountWillingToPay(int Amount)
 {
     AmountWillingToPay = Amount;
+}
+void GraphNode::SetIncomingEdgesCount(int NumberOfIncomingEdges)
+{
+    IncomingEdges = NumberOfIncomingEdges;
 }
 void GraphNode::SetPreviousNodePointer(GraphNode* IncomingGraphNodePointer)
 {
@@ -58,6 +64,10 @@ int GraphNode::GetEndDate()
 int GraphNode::GetAmountWillingToPay()
 {
     return AmountWillingToPay;
+}
+int GraphNode::GetIncomingEdgesCount()
+{
+    return IncomingEdges;
 }
 GraphNode* GraphNode::GetPreviousNodePointer()
 {

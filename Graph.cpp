@@ -3,7 +3,9 @@
 //
 #include <iostream>
 #include <fstream>
+#include <queue>
 #include "Graph.hpp"
+
 //Constructor
 Graph::Graph()
 {
@@ -101,7 +103,7 @@ void Graph::FindGraphEdgeConnections()
     for (int i = 0; i < AdjacencyList.size(); i++)
     {
         //For this iteration of
-        for (int j = i+1; j < AdjacencyList.size(); j++)
+        for (int j = 0; j < AdjacencyList.size(); j++)
         {
             //If the client/GraphNode we're at's end date is less than or equal to the start date of the for loop that is looking at all other clients
             //then we can add this other client as an edge to our initial client
@@ -109,13 +111,43 @@ void Graph::FindGraphEdgeConnections()
             {
                 //Add the client at the jth position as an edge to the client at i
                 AddEdge(AdjacencyList.at(i), AdjacencyList.at(j));
+                //Since we know that the client at the jth position now has a an incoming edge from the client at the ith position, we need to account for that in our graph node and add an edge to that graph node
+                AdjacencyList.at(j)->SetIncomingEdgesCount(AdjacencyList.at(j)->GetIncomingEdgesCount() + 1);
             }
         }
     }
 
 }
+//Topological sort of the adjacency list using Breadth First Search (BFS i.e. queue method)
 void Graph::TopologicalSort()
 {
+    //"First visit all edges, counting the number of edges that lead to each vertex (i.e., count the number of prerequisites for each vertex).
+    //All vertices with no prerequisites are placed on the queue. We then begin processing the queue.
+    //When Vertex v is taken off of the queue, it is printed, and all neighbors of v (that is, all vertices that have v as a prerequisite) have their counts decremented by one.
+    //Place on the queue any neighbor whose count becomes zero.
+    //If the queue becomes empty without printing all of the vertices, then the graph contains a cycle (i.e., there is no possible ordering for the tasks that does not violate some prerequisite)."
+
+    //In our FindGraphEdgeConnections function, we have walked through each of the graph nodes that were initially in our adjacency list (i.e. we parsed the input, and each line was an initial client that was the start/head of each linked
+    //list in our array. No edges had been added each client yet) and added appropriate edges if they met the criteria of if the end date of a particular client was less than equal to the start date of another client,
+    //we could go ahead and add that edge.
+    //We will now be using a modified version of Topological sort in order to find the optimal revenue path that would give us the most bang for our buck
+    // We will be using the Breadth First Search method (queue) to sort through those edges
+
+    //Create the queue to push GraphNodes that have incoming edge counts of zero to
+    queue <GraphNode*> OurTopologicalSortQueue;
+
+    //Walk through the adjacency list (we should only need to visit the first node/head of each linked list in the adjacency list)
+    for (int i = 0; i < AdjacencyList.size(); i++)
+    {
+        //If the incoming edge count of a particular client/graph node in the adjacency list is 0..
+        if (AdjacencyList.at(i)->GetIncomingEdgesCount() == 0)
+        {
+            //We push that client/graph node into our queue
+            OurTopologicalSortQueue.push(AdjacencyList.at(i));
+            //We then need to decrement that graph node's neighbor's edge counts by one. Note how in our adjacency list all neighbors are attached to this graph node in the same linked list
+
+        }
+    }
 
 }
 void Graph::PrintGraph()
