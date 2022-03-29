@@ -28,9 +28,10 @@ public:
     Graph();
     //Parameterized constructor
     Graph(string InputFileName);
-    void AddEdge();
+    void AddEdge(GraphNode *, GraphNode *);
     void AddVertexNode(GraphNode *);
     void TopologicalSort();
+    void FindGraphEdgeConnections();
     void PrintGraph();
 
 

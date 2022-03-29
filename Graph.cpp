@@ -81,10 +81,31 @@ void Graph::AddVertexNode(GraphNode* IncomingGraphNode)
     AdjacencyList.push_back(IncomingGraphNode);
 }
 //Add an edge to a particular vertex/graph node in our graph
-//"We make edges to indicate when there is no overlap" - Dr. Gill
-//i.e. we will only be adding edges in our adjacency list when two clients do not have overlapping time schedules and can be a part of a possible solution
-void Graph::AddEdge()
+void Graph::AddEdge(GraphNode* ClientToHaveEdgeAddedTo, GraphNode* ClientThatIsAPossiblePath)
 {
+    
+}
+
+void Graph::FindGraphEdgeConnections()
+{
+    //For each GraphNode/Client/Vertex in our starting adjacency list, lets see if we can add any edges
+    //We add a edge when there is indeed a possible path for one client to another
+    //"We make edges to indicate when there is no overlap" - Dr. Gill
+    // i.e. we will only be adding edges in our adjacency list when two clients do not have overlapping time schedules and can be a part of a possible solution
+    for (int i = 0; i < AdjacencyList.size(); i++)
+    {
+        //For this iteration of
+        for (int j = i+1; j < AdjacencyList.size(); j++)
+        {
+            //If the client/GraphNode we're at's end date is less than or equal to the start date of the for loop that is looking at all other clients
+            //then we can add this other client as an edge to our initial client
+            if (AdjacencyList.at(i)->GetEndDate() <= AdjacencyList.at(j)->GetStartDate())
+            {
+                //Add the client at the jth position as an edge to the client at i
+                AddEdge(AdjacencyList.at(i), AdjacencyList.at(j));
+            }
+        }
+    }
 
 }
 void Graph::TopologicalSort()

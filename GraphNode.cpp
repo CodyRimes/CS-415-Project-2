@@ -14,6 +14,9 @@ GraphNode::GraphNode()
     StartDate = 0;
     EndDate = 0;
     AmountWillingToPay = 0;
+    previousNode = nullptr;
+    nextNode = nullptr;
+
 }
 //Parameterized constructor for when we initially parse our input and initialize with those parsed values upon creation of a GraphNode
 GraphNode::GraphNode(int Start, int End, int AmountToPay)
@@ -21,6 +24,8 @@ GraphNode::GraphNode(int Start, int End, int AmountToPay)
     StartDate = Start;
     EndDate = End;
     AmountWillingToPay = AmountToPay;
+    previousNode = nullptr;
+    nextNode = nullptr;
 }
 void GraphNode::SetStartDate(int Start)
 {

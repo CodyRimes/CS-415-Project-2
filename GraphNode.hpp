@@ -13,6 +13,8 @@ private:
     int StartDate;
     int EndDate;
     int AmountWillingToPay;
+    GraphNode* previousNode;
+    GraphNode* nextNode;
 
 public:
     GraphNode();
