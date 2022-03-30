@@ -1,4 +1,6 @@
 #include "Graph.hpp"
+#include "LinkedListNode.hpp"
+#include "Data.hpp"
 #include "GraphNode.hpp"
 #include <iostream>
 

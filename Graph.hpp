@@ -9,6 +9,8 @@
 #define CS415PROJECT2_GRAPH_HPP
 
 #include "GraphNode.hpp"
+#include "Data.hpp"
+#include "LinkedListNode.hpp"
 #include <vector>
 #include <iostream>
 #include <string>
@@ -19,7 +21,7 @@ class Graph
 private:
     int NumberOfEdges;
     int NumberOfVertexNodes;
-    vector <GraphNode *> AdjacencyList;
+    vector <Data> AdjacencyList;
     //Do we need these?
     GraphNode* StartNode;
     GraphNode* EndNode;
@@ -28,8 +30,8 @@ public:
     Graph();
     //Parameterized constructor
     Graph(string InputFileName);
-    void AddEdge(GraphNode *, GraphNode *);
-    void AddVertexNode(GraphNode *);
+    void AddEdge(LinkedListNode *, LinkedListNode *);
+    void AddVertexNode(Data);
     void TopologicalSort();
     void FindGraphEdgeConnections();
     void PrintGraph();

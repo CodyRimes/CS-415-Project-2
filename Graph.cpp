@@ -5,6 +5,8 @@
 #include <fstream>
 #include <queue>
 #include "Graph.hpp"
+#include "Data.hpp"
+#include "LinkedListNode.hpp"
 
 //Constructor
 Graph::Graph()
@@ -59,9 +61,9 @@ Graph::Graph(string InputFileName)
     {
         //Getting a line of input from our input file and parsing it into the appropriate variables
         inputFileStreamObject >> StartDate >> EndDate >> AmountWillingToPay;
-        //We then need to make a GraphNode object with these values
-        GraphNode* GraphNodeToBePutInOurAdjacencyList = new GraphNode(StartDate, EndDate, AmountWillingToPay);
-        //Now that we have our graph node, put it into our adjacency list that is a part of our Graph Object
+        //We then need to make a Data object with these values
+        Data OurDataForAClient(StartDate, EndDate,AmountWillingToPay);
+        //Now that we have our client's data, put it into our adjacency list that is a part of our Graph Object
         AddVertexNode(GraphNodeToBePutInOurAdjacencyList);
 
         /*
@@ -78,11 +80,11 @@ Graph::Graph(string InputFileName)
 
 
 //Add a graph node/vertex to our graph
-void Graph::AddVertexNode(GraphNode* IncomingGraphNode)
+void Graph::AddVertexNode(Data IncomingClientToBeAddedToAdjacencyList)
 {
-    AdjacencyList.push_back(IncomingGraphNode);
+    AdjacencyList.push_back(IncomingClientToBeAddedToAdjacencyList);
 }
-//Add an edge to a particular vertex/graph node in our graph
+//Add an edge to a particular vertex node in our adjacency list
 void Graph::AddEdge(GraphNode* ClientToHaveEdgeAddedTo, GraphNode* ClientThatIsAPossiblePath)
 {
     //First we need to make a copy of the ClientThatIsAPossiblePath's node, that way we don't mess up the original that's currently in the adjacency list

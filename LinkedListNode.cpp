@@ -3,6 +3,7 @@
 //
 
 #include "LinkedListNode.hpp"
+#include "Data.hpp"
 
 void LinkedListNode::SetPointerToDataForAParticularClient(Data* IncomingPointerToDataForAParticularClient)
 {

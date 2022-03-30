@@ -6,6 +6,8 @@
 #define CS415PROJECT2_LINKEDLISTNODE_HPP
 
 #include "Data.hpp"
+#include <iostream>
+
 
 class LinkedListNode
 {
