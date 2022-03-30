@@ -66,9 +66,11 @@ Graph::Graph(string InputFileName)
         //Lets make a LinkedListNode object for our client to start it's linked list
         LinkedListNode* ClientsLinkedList = new LinkedListNode();
         //We need to point that Data object to its LinkedListNode object
-        OurDataForAClient.
-
-        //We need to point that LinkedListNode object back at our Data object as well
+        OurDataForAClient.SetPointerToCorrespondingLinkedList(ClientsLinkedList);
+        //We need to point that LinkedListNode object back at our Data object as well, so we'll need to make a Data pointer that points to our clients data
+        Data* PointerToOurClientsData = &OurDataForAClient;
+        //Now point the LinkedListNode back at the corresponding clients data
+        ClientsLinkedList->SetPointerToDataForAParticularClient(PointerToOurClientsData);
 
         //Now that we have our client's data, put it into our adjacency list that is a part of our Graph Object
         AddVertexNode(OurDataForAClient);

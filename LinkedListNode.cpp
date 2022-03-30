@@ -20,13 +20,13 @@ void LinkedListNode::SetPointerToDataForAParticularClient(Data* IncomingPointerT
 {
     PointerToDataForAParticularClient = IncomingPointerToDataForAParticularClient;
 }
-void LinkedListNode::SetPreviousNodePointer(LinkedListNode* IncomingGraphNodePointer)
+void LinkedListNode::SetPreviousNodePointer(LinkedListNode* IncomingPreviousNodePointer)
 {
-    previousNode = IncomingGraphNodePointer;
+    previousNode = IncomingPreviousNodePointer;
 }
-void LinkedListNode::SetNextNodePointer(LinkedListNode* IncomingGraphNodePointer)
+void LinkedListNode::SetNextNodePointer(LinkedListNode* IncomingNexNodePointer)
 {
-    nextNode = IncomingGraphNodePointer;
+    nextNode = IncomingNexNodePointer;
 }
 LinkedListNode* LinkedListNode::GetPreviousNodePointer()
 {
