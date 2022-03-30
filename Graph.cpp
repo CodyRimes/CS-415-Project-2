@@ -63,8 +63,15 @@ Graph::Graph(string InputFileName)
         inputFileStreamObject >> StartDate >> EndDate >> AmountWillingToPay;
         //We then need to make a Data object with these values
         Data OurDataForAClient(StartDate, EndDate,AmountWillingToPay);
+        //Lets make a LinkedListNode object for our client to start it's linked list
+        LinkedListNode* ClientsLinkedList = new LinkedListNode();
+        //We need to point that Data object to its LinkedListNode object
+        OurDataForAClient.
+
+        //We need to point that LinkedListNode object back at our Data object as well
+
         //Now that we have our client's data, put it into our adjacency list that is a part of our Graph Object
-        AddVertexNode(GraphNodeToBePutInOurAdjacencyList);
+        AddVertexNode(OurDataForAClient);
 
         /*
         //We've gone through one while loop iteration by this point, so increment our counter
@@ -85,7 +92,7 @@ void Graph::AddVertexNode(Data IncomingClientToBeAddedToAdjacencyList)
     AdjacencyList.push_back(IncomingClientToBeAddedToAdjacencyList);
 }
 //Add an edge to a particular vertex node in our adjacency list
-void Graph::AddEdge(GraphNode* ClientToHaveEdgeAddedTo, GraphNode* ClientThatIsAPossiblePath)
+void Graph::AddEdge(Data ClientToHaveEdgeAddedTo, Data ClientThatIsAPossiblePath)
 {
     //First we need to make a copy of the ClientThatIsAPossiblePath's node, that way we don't mess up the original that's currently in the adjacency list
     GraphNode* CopyOfClientThatIsAPossiblePathNode = new GraphNode(ClientThatIsAPossiblePath->GetStartDate(), ClientThatIsAPossiblePath->GetEndDate(), ClientThatIsAPossiblePath->GetAmountWillingToPay());
@@ -109,7 +116,7 @@ void Graph::FindGraphEdgeConnections()
         {
             //If the client/GraphNode we're at's end date is less than or equal to the start date of the for loop that is looking at all other clients
             //then we can add this other client as an edge to our initial client
-            if (AdjacencyList.at(i)->GetEndDate() <= AdjacencyList.at(j)->GetStartDate())
+            if (AdjacencyList.at(i).GetEndDate() <= AdjacencyList.at(j).GetStartDate())
             {
                 //Add the client at the jth position as an edge to the client at i
                 AddEdge(AdjacencyList.at(i), AdjacencyList.at(j));

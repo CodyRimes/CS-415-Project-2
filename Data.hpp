@@ -17,7 +17,9 @@ private:
     LinkedListNode* PointerToCorrespondingLinkedList;
 
 public:
+    //Constructor
     Data();
+    //Parameterized Constructor
     Data(int Start, int End, int AmountToPay);
 
     //Setters for private attributes (in case we need to do so later on in the program)
@@ -25,12 +27,14 @@ public:
     void SetEndDate(int End);
     void SetAmountWillingToPay(int AmountToPay);
     void SetIncomingEdgesCount(int NumberOfIncomingEdges);
+    void SetPointerToCorrespondingLinkedList(LinkedListNode* PointToThisLinkedList);
 
     //Getters for private attributes (in case we need to do so later on in the program)
     int GetStartDate();
     int GetEndDate();
     int GetAmountWillingToPay();
     int GetIncomingEdgesCount();
+    LinkedListNode* GetPointerToCorrespondingLinkedList();
 
     void PrintData();
 };

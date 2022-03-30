@@ -4,7 +4,18 @@
 
 #include "LinkedListNode.hpp"
 #include "Data.hpp"
-
+LinkedListNode::LinkedListNode()
+{
+    previousNode = nullptr;
+    nextNode = nullptr;
+    PointerToDataForAParticularClient = nullptr;
+}
+LinkedListNode::LinkedListNode(LinkedListNode * PointToThePreviousNode, LinkedListNode * PointToTheNextNode, Data * PointBackToAClientsData)
+{
+    previousNode = PointToThePreviousNode;
+    nextNode = PointToTheNextNode;
+    PointerToDataForAParticularClient = PointBackToAClientsData;
+}
 void LinkedListNode::SetPointerToDataForAParticularClient(Data* IncomingPointerToDataForAParticularClient)
 {
     PointerToDataForAParticularClient = IncomingPointerToDataForAParticularClient;

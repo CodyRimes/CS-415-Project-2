@@ -20,9 +20,15 @@ private:
 
 
 public:
+    //Constructor
+    LinkListNode();
+    //Parameterized Constructor
+    LinkedListNode(LinkedListNode*, LinkedListNode*, Data*);
+    //Setters
     void SetPointerToDataForAParticularClient(Data* IncomingPointerToDataForAParticularClient);
     void SetPreviousNodePointer(LinkedListNode* IncomingGraphNodePointer);
     void SetNextNodePointer(LinkedListNode* IncomingGraphNodePointer);
+    //Getters
     LinkedListNode* GetPreviousNodePointer();
     LinkedListNode* GetNextNodePointer();
     Data* GetPointerToDataForAParticularClient();

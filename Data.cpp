@@ -11,6 +11,7 @@ Data::Data()
     EndDate = 0;
     AmountWillingToPay = 0;
     IncomingEdges = 0;
+    PointerToCorrespondingLinkedList = nullptr;
 }
 Data::Data(int Start, int End, int AmountToPay)
 {
@@ -18,6 +19,7 @@ Data::Data(int Start, int End, int AmountToPay)
     EndDate = End;
     AmountWillingToPay = AmountToPay;
     IncomingEdges = 0;
+    PointerToCorrespondingLinkedList = nullptr;
 }
 
 //Setters for private attributes (in case we need to do so later on in the program)
@@ -37,7 +39,10 @@ void Data::SetIncomingEdgesCount(int NumberOfIncomingEdges)
 {
     IncomingEdges = NumberOfIncomingEdges;
 }
-
+void Data::SetPointerToCorrespondingLinkedList(LinkedListNode* PointToThisLinkedList)
+{
+    PointerToCorrespondingLinkedList = PointToThisLinkedList;
+}
 //Getters for private attributes (in case we need to do so later on in the program)
 int Data::GetStartDate()
 {
@@ -54,6 +59,10 @@ int Data::GetAmountWillingToPay()
 int Data::GetIncomingEdgesCount()
 {
     return IncomingEdges;
+}
+LinkedListNode* Data::GetPointerToCorrespondingLinkedList()
+{
+    return PointerToCorrespondingLinkedList;
 }
 
 void Data::PrintData()

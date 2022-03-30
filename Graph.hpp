@@ -30,7 +30,7 @@ public:
     Graph();
     //Parameterized constructor
     Graph(string InputFileName);
-    void AddEdge(LinkedListNode *, LinkedListNode *);
+    void AddEdge(Data, Data);
     void AddVertexNode(Data);
     void TopologicalSort();
     void FindGraphEdgeConnections();
