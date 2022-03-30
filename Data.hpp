@@ -22,7 +22,7 @@ public:
 
     //Setters for private attributes (in case we need to do so later on in the program)
     void SetStartDate(int Start);
-    void SetEndDate(int EndD);
+    void SetEndDate(int End);
     void SetAmountWillingToPay(int AmountToPay);
     void SetIncomingEdgesCount(int NumberOfIncomingEdges);
 
