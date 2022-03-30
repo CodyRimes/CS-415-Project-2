@@ -127,6 +127,33 @@ CS415Project2\fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\CS415Project2.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\CS415Project2.dir\build
 .PHONY : CS415Project2\fast
 
+Data.obj: Data.cpp.obj
+
+.PHONY : Data.obj
+
+# target to build an object file
+Data.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\CS415Project2.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\CS415Project2.dir\Data.cpp.obj
+.PHONY : Data.cpp.obj
+
+Data.i: Data.cpp.i
+
+.PHONY : Data.i
+
+# target to preprocess a source file
+Data.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\CS415Project2.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\CS415Project2.dir\Data.cpp.i
+.PHONY : Data.cpp.i
+
+Data.s: Data.cpp.s
+
+.PHONY : Data.s
+
+# target to generate assembly for a file
+Data.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\CS415Project2.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\CS415Project2.dir\Data.cpp.s
+.PHONY : Data.cpp.s
+
 Graph.obj: Graph.cpp.obj
 
 .PHONY : Graph.obj
@@ -181,6 +208,33 @@ GraphNode.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\CS415Project2.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\CS415Project2.dir\GraphNode.cpp.s
 .PHONY : GraphNode.cpp.s
 
+LinkedListNode.obj: LinkedListNode.cpp.obj
+
+.PHONY : LinkedListNode.obj
+
+# target to build an object file
+LinkedListNode.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\CS415Project2.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\CS415Project2.dir\LinkedListNode.cpp.obj
+.PHONY : LinkedListNode.cpp.obj
+
+LinkedListNode.i: LinkedListNode.cpp.i
+
+.PHONY : LinkedListNode.i
+
+# target to preprocess a source file
+LinkedListNode.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\CS415Project2.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\CS415Project2.dir\LinkedListNode.cpp.i
+.PHONY : LinkedListNode.cpp.i
+
+LinkedListNode.s: LinkedListNode.cpp.s
+
+.PHONY : LinkedListNode.s
+
+# target to generate assembly for a file
+LinkedListNode.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\CS415Project2.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\CS415Project2.dir\LinkedListNode.cpp.s
+.PHONY : LinkedListNode.cpp.s
+
 main.obj: main.cpp.obj
 
 .PHONY : main.obj
@@ -217,12 +271,18 @@ help:
 	@echo ... edit_cache
 	@echo ... rebuild_cache
 	@echo ... CS415Project2
+	@echo ... Data.obj
+	@echo ... Data.i
+	@echo ... Data.s
 	@echo ... Graph.obj
 	@echo ... Graph.i
 	@echo ... Graph.s
 	@echo ... GraphNode.obj
 	@echo ... GraphNode.i
 	@echo ... GraphNode.s
+	@echo ... LinkedListNode.obj
+	@echo ... LinkedListNode.i
+	@echo ... LinkedListNode.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s

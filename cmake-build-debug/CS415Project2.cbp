@@ -84,6 +84,12 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="C:/Users/Cody/CLionProjects/CS415Project2/Data.cpp">
+			<Option target="CS415Project2"/>
+		</Unit>
+		<Unit filename="C:/Users/Cody/CLionProjects/CS415Project2/Data.hpp">
+			<Option target="CS415Project2"/>
+		</Unit>
 		<Unit filename="C:/Users/Cody/CLionProjects/CS415Project2/Graph.cpp">
 			<Option target="CS415Project2"/>
 		</Unit>
@@ -94,6 +100,12 @@
 			<Option target="CS415Project2"/>
 		</Unit>
 		<Unit filename="C:/Users/Cody/CLionProjects/CS415Project2/GraphNode.hpp">
+			<Option target="CS415Project2"/>
+		</Unit>
+		<Unit filename="C:/Users/Cody/CLionProjects/CS415Project2/LinkedListNode.cpp">
+			<Option target="CS415Project2"/>
+		</Unit>
+		<Unit filename="C:/Users/Cody/CLionProjects/CS415Project2/LinkedListNode.hpp">
 			<Option target="CS415Project2"/>
 		</Unit>
 		<Unit filename="C:/Users/Cody/CLionProjects/CS415Project2/main.cpp">
