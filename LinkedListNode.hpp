@@ -7,15 +7,16 @@
 
 #include "Data.hpp"
 #include <iostream>
+#include <stdlib.h>
 
-
+class Data;
 class LinkedListNode
 {
 private:
 
     LinkedListNode* previousNode;
     LinkedListNode* nextNode;
-    Data* PointerToDataForAParticularClient;
+  Data *PointerToDataForAParticularClient; 
 
 
 

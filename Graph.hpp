@@ -33,6 +33,7 @@ public:
     void AddEdge(LinkedListNode *, LinkedListNode *);
     void AddVertexNode(Data);
     void TopologicalSort();
+  int MaxRental();
     void FindGraphEdgeConnections();
     void PrintGraph();
 
