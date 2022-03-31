@@ -8,6 +8,7 @@
 #include "Data.hpp"
 #include <iostream>
 
+//class Data;
 
 class LinkedListNode
 {
@@ -21,7 +22,7 @@ private:
 
 public:
     //Constructor
-    LinkListNode();
+    LinkedListNode();
     //Parameterized Constructor
     LinkedListNode(LinkedListNode*, LinkedListNode*, Data*);
     //Setters

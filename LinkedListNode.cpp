@@ -22,6 +22,7 @@ void LinkedListNode::SetPointerToDataForAParticularClient(Data* IncomingPointerT
 }
 void LinkedListNode::SetPreviousNodePointer(LinkedListNode* IncomingPreviousNodePointer)
 {
+    //Note how this is not a pointer pointing at another pointer, but it is assigning our pointer to point at the same thing the incoming pointer is pointing at.
     previousNode = IncomingPreviousNodePointer;
 }
 void LinkedListNode::SetNextNodePointer(LinkedListNode* IncomingNexNodePointer)

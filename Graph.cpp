@@ -65,12 +65,22 @@ Graph::Graph(string InputFileName)
         Data OurDataForAClient(StartDate, EndDate,AmountWillingToPay);
         //Lets make a LinkedListNode object for our client to start it's linked list
         LinkedListNode* ClientsLinkedList = new LinkedListNode();
+
+        /////////////////////////////////////
+        //Note why to not use this method:
+        //Dr. Gondree: "If you use this method the object is made in the stack, and every time this while loop runs CLientLinkedList2 will be overwritten. Where as the above method
+        //is put into the heap, and will not overwritten and then lost when this while loop terminates."
+        //Test this theory
+        //LinkedListNode ClientsLinkedList2;
+        //OurDataForAClient.SetPointerToCorrespondingLinkedList(&ClientsLinkedList2);
+        /////////////////////////////////////
+
         //We need to point that Data object to its LinkedListNode object
         OurDataForAClient.SetPointerToCorrespondingLinkedList(ClientsLinkedList);
-        //We need to point that LinkedListNode object back at our Data object as well, so we'll need to make a Data pointer that points to our clients data
-        Data* PointerToOurClientsData = &OurDataForAClient;
-        //Now point the LinkedListNode back at the corresponding clients data
-        ClientsLinkedList->SetPointerToDataForAParticularClient(PointerToOurClientsData);
+
+
+        //Now point the LinkedListNode back at the corresponding clients data. We can do that by passing our Data object by reference
+        ClientsLinkedList->SetPointerToDataForAParticularClient(&OurDataForAClient);
 
         //Now that we have our client's data, put it into our adjacency list that is a part of our Graph Object
         AddVertexNode(OurDataForAClient);
@@ -99,10 +109,21 @@ void Graph::AddEdge(Data ClientToHaveEdgeAddedTo, Data ClientThatIsAPossiblePath
     //First we need to make a copy of the ClientThatIsAPossiblePath's node, that way we don't mess up the original that's currently in the adjacency list
     GraphNode* CopyOfClientThatIsAPossiblePathNode = new GraphNode(ClientThatIsAPossiblePath->GetStartDate(), ClientThatIsAPossiblePath->GetEndDate(), ClientThatIsAPossiblePath->GetAmountWillingToPay());
 
-    //We will then have the ClientToHaveEdgeAddedTo node nextNode pointer set to point to that ClientThatIsAPossiblePath node and vice versa (have the ClientThatIsAPossiblePath previous pointer set to point
-    //back at the ClientToHaveEdgeAddedTo node)
-    ClientToHaveEdgeAddedTo->SetNextNodePointer(CopyOfClientThatIsAPossiblePathNode);
-    CopyOfClientThatIsAPossiblePathNode->SetPreviousNodePointer(ClientToHaveEdgeAddedTo);
+    //We have two Data objects. One is the client that needs to have the edge added to, and one is the client that needs to be connected to the client that needs an edge added to.
+    //To do that we must first make another LinkedListNode object
+    LinkedListNode* LinkedListToBeAdded = new LinkedListNode();
+
+    //Then we need to have client that needs its edge added to LinkedListNode to point to that LinkedListNode we are adding
+    ClientToHaveEdgeAddedTo.GetPointerToCorrespondingLinkedList()->SetNextNodePointer(LinkedListToBeAdded);
+
+    //Now we need to have the LinkedListNode that is to be added point back at the client's corresponding linked list as well
+    LinkedListToBeAdded->SetPreviousNodePointer(ClientToHaveEdgeAddedTo.GetPointerToCorrespondingLinkedList());
+
+    //Finally we need to point the LinkedListNode that we want to add to be point at the appropriate client's data
+    LinkedListToBeAdded->SetPointerToDataForAParticularClient(ClientThatIsAPossiblePath.GetPointerToCorrespondingLinkedList()->GetPointerToDataForAParticularClient());
+    //Would this work?
+    //LinkedListToBeAdded->SetPointerToDataForAParticularClient(&ClientThatIsAPossiblePath);
+
 }
 
 void Graph::FindGraphEdgeConnections()
@@ -122,8 +143,10 @@ void Graph::FindGraphEdgeConnections()
             {
                 //Add the client at the jth position as an edge to the client at i
                 AddEdge(AdjacencyList.at(i), AdjacencyList.at(j));
+
+
                 //Since we know that the client at the jth position now has a an incoming edge from the client at the ith position, we need to account for that in our graph node and add an edge to that graph node
-                AdjacencyList.at(j)->SetIncomingEdgesCount(AdjacencyList.at(j)->GetIncomingEdgesCount() + 1);
+                AdjacencyList.at(j).SetIncomingEdgesCount(AdjacencyList.at(j).GetIncomingEdgesCount() + 1);
             }
         }
     }
@@ -165,6 +188,6 @@ void Graph::PrintGraph()
 {
     for (int i = 0; i < AdjacencyList.size(); i++)
     {
-        AdjacencyList.at(i)->printGraphNode();
+        AdjacencyList.at(i).PrintData();
     }
 }
