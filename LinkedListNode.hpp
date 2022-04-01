@@ -16,7 +16,9 @@ private:
 
     LinkedListNode* previousNode;
     LinkedListNode* nextNode;
-    Data* PointerToDataForAParticularClient;
+    int IndexID;
+
+    //Data* PointerToDataForAParticularClient;
 
 
 
@@ -24,15 +26,19 @@ public:
     //Constructor
     LinkedListNode();
     //Parameterized Constructor
-    LinkedListNode(LinkedListNode*, LinkedListNode*, Data*);
+    LinkedListNode(LinkedListNode*, LinkedListNode*);
+
     //Setters
-    void SetPointerToDataForAParticularClient(Data* IncomingPointerToDataForAParticularClient);
+    //void SetPointerToDataForAParticularClient(Data* IncomingPointerToDataForAParticularClient);
     void SetPreviousNodePointer(LinkedListNode* IncomingGraphNodePointer);
     void SetNextNodePointer(LinkedListNode* IncomingGraphNodePointer);
+    void SetIndexID(int IncomingAdjacencyListIndex);
+
     //Getters
     LinkedListNode* GetPreviousNodePointer();
     LinkedListNode* GetNextNodePointer();
-    Data* GetPointerToDataForAParticularClient();
+    int GetIndexID();
+    //Data* GetPointerToDataForAParticularClient();
 
 };
 

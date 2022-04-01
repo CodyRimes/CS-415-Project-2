@@ -65,7 +65,7 @@ Graph::Graph(string InputFileName)
         Data* OurDataForAClient = new Data(StartDate, EndDate,AmountWillingToPay);
         //Data* OurDataForAClient = new Data(StartDate, EndDate,AmountWillingToPay);
         //Lets make a LinkedListNode object for our client to start it's linked list
-        LinkedListNode* ClientsLinkedList = new LinkedListNode();
+        //LinkedListNode* ClientsLinkedList = new LinkedListNode();
 
         /////////////////////////////////////
         //Note why to not use this method:
@@ -77,11 +77,11 @@ Graph::Graph(string InputFileName)
         /////////////////////////////////////
 
         //We need to point that Data object to its LinkedListNode object
-        OurDataForAClient->SetPointerToCorrespondingLinkedList(ClientsLinkedList);
+        //OurDataForAClient->SetPointerToCorrespondingLinkedList(ClientsLinkedList);
 
 
-        //Now point the LinkedListNode back at the corresponding clients data. We can do that by passing our Data object by reference
-        ClientsLinkedList->SetPointerToDataForAParticularClient(OurDataForAClient);
+        //Giving a reference for the linked list to refer back to via the index of where the client will be stored inside the adjacency list/vector
+        //ClientsLinkedList->SetIndexID(counter);
 
         //Use our counter to correctly track where this client would be pushed into the vector i.e. our adjacencyList
         OurDataForAClient->SetIndexID(counter);
@@ -113,7 +113,7 @@ void Graph::AddVertexNode(Data IncomingClientToBeAddedToAdjacencyList)
     AdjacencyList.push_back(IncomingClientToBeAddedToAdjacencyList);
 }
 //Add an edge to a particular vertex node in our adjacency list
-void Graph::AddEdge(Data ClientToHaveEdgeAddedTo, Data ClientThatIsAPossiblePath)
+void Graph::AddEdge(Data &ClientToHaveEdgeAddedTo, Data &ClientThatIsAPossiblePath)
 {
 
     //We have two Data objects. One is the client that needs to have the edge added to, and one is the client that needs to be connected to the client that needs an edge added to.
@@ -122,16 +122,16 @@ void Graph::AddEdge(Data ClientToHaveEdgeAddedTo, Data ClientThatIsAPossiblePath
 
     //If the client to have it's edge added to has it's linked list node's next pointer pointing to null, that means besides it's first node in it's linked list (which references the data itself), it has no
     //nodes in it's linked list. We should add our new node following that default node
-    if (ClientToHaveEdgeAddedTo.GetPointerToCorrespondingLinkedList()->GetNextNodePointer() == nullptr)
+    if (ClientToHaveEdgeAddedTo.GetPointerToCorrespondingLinkedList() == nullptr)
     {
         //Then we need to have client that needs its edge added to LinkedListNode to point to that LinkedListNode we are adding
-        ClientToHaveEdgeAddedTo.GetPointerToCorrespondingLinkedList()->SetNextNodePointer(LinkedListToBeAdded);
+        ClientToHaveEdgeAddedTo.SetPointerToCorrespondingLinkedList(LinkedListToBeAdded);
         //Now we need to have the LinkedListNode that is to be added point back at the client's corresponding linked list as well
-        LinkedListToBeAdded->SetPreviousNodePointer(ClientToHaveEdgeAddedTo.GetPointerToCorrespondingLinkedList());
+        //LinkedListToBeAdded->SetPreviousNodePointer(ClientToHaveEdgeAddedTo.GetPointerToCorrespondingLinkedList());
         //Finally we need to point the LinkedListNode that we want to add to be point at the appropriate client's data
         //LinkedListToBeAdded->SetPointerToDataForAParticularClient(ClientThatIsAPossiblePath.GetPointerToCorrespondingLinkedList()->GetPointerToDataForAParticularClient());
         //Would this work?
-        LinkedListToBeAdded->SetPointerToDataForAParticularClient(&ClientThatIsAPossiblePath);
+        LinkedListToBeAdded->SetIndexID(ClientThatIsAPossiblePath.GetIndexID());
     }
     //Otherwise we have client that has a developed linked list and we must first reach the end of that linked list so we can add the new node to the end of the list
     else
@@ -148,7 +148,7 @@ void Graph::AddEdge(Data ClientToHaveEdgeAddedTo, Data ClientThatIsAPossiblePath
         LinkedListToBeAdded->SetPreviousNodePointer(TemporaryHead);
         //Finally we need to also make sure our LinkedListNode to be added is pointing at the correct client it is to be referencing
         //LinkedListToBeAdded->SetPointerToDataForAParticularClient(ClientThatIsAPossiblePath.GetPointerToCorrespondingLinkedList()->GetPointerToDataForAParticularClient());
-        LinkedListToBeAdded->SetPointerToDataForAParticularClient(&ClientThatIsAPossiblePath);
+        LinkedListToBeAdded->SetIndexID(ClientThatIsAPossiblePath.GetIndexID());
     }
 
 
@@ -175,12 +175,13 @@ void Graph::FindGraphEdgeConnections()
 
                 //Since we know that the client at the jth position now has a an incoming edge from the client at the ith position, we need to account for that in our graph node and add an edge to that graph node
                 AdjacencyList.at(j).SetIncomingEdgesCount(AdjacencyList.at(j).GetIncomingEdgesCount() + 1);
+
             }
         }
     }
 
 }
-/*
+
 //Topological sort of the adjacency list using Breadth First Search (BFS i.e. queue method)
 void Graph::TopologicalSort()
 {
@@ -213,7 +214,7 @@ void Graph::TopologicalSort()
     }
 
 }
- */
+
 void Graph::PrintGraph()
 {
     for (int i = 0; i < AdjacencyList.size(); i++)
@@ -221,7 +222,4 @@ void Graph::PrintGraph()
         AdjacencyList.at(i).PrintData();
     }
 }
-void Graph::PrintLinkedList()
-{
 
-}

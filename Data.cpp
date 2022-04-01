@@ -85,7 +85,7 @@ void Data::PrintData()
     cout << "Amount willing to pay: " << AmountWillingToPay << endl;
     //Then print the neighbors of this client using it's linked list
     //If this client's corresponding LinkedListNode's next pointer points to a nullptr, that means there is no neighbors for this client
-    if (this->GetPointerToCorrespondingLinkedList()->GetNextNodePointer() == nullptr)
+    if (this->GetPointerToCorrespondingLinkedList() == nullptr)
     {
         //Thus we can print that there is no neighbors
         cout << "This client has no neighbors" << endl;
@@ -99,10 +99,10 @@ void Data::PrintData()
         LinkedListNode* TemporaryHead = this->GetPointerToCorrespondingLinkedList();
         //So long as our node we're at has it's next pointer to another actual node, i.e. it is not equal to nullptr,
         //we can print the indexID from the Data class that the LinkedListNode points back to
-        while (TemporaryHead->GetNextNodePointer() != nullptr)
+        while (TemporaryHead != nullptr)
         {
             //Print the indexID that the LinkedListNode has access to via it's Data class pointer
-            cout << " " << TemporaryHead->GetPointerToDataForAParticularClient()->GetIndexID() << " ";
+            cout << " " << TemporaryHead->GetIndexID() + 1 << "-> ";
             //Be sure to set the pointer we're at to point to the next node in the linked list
             TemporaryHead = TemporaryHead->GetNextNodePointer();
         }

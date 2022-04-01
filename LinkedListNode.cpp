@@ -8,18 +8,14 @@ LinkedListNode::LinkedListNode()
 {
     previousNode = nullptr;
     nextNode = nullptr;
-    PointerToDataForAParticularClient = nullptr;
 }
-LinkedListNode::LinkedListNode(LinkedListNode * PointToThePreviousNode, LinkedListNode * PointToTheNextNode, Data * PointBackToAClientsData)
+LinkedListNode::LinkedListNode(LinkedListNode * PointToThePreviousNode, LinkedListNode * PointToTheNextNode)
 {
     previousNode = PointToThePreviousNode;
     nextNode = PointToTheNextNode;
-    PointerToDataForAParticularClient = PointBackToAClientsData;
 }
-void LinkedListNode::SetPointerToDataForAParticularClient(Data* IncomingPointerToDataForAParticularClient)
-{
-    PointerToDataForAParticularClient = IncomingPointerToDataForAParticularClient;
-}
+
+
 void LinkedListNode::SetPreviousNodePointer(LinkedListNode* IncomingPreviousNodePointer)
 {
     //Note how this is not a pointer pointing at another pointer, but it is assigning our pointer to point at the same thing the incoming pointer is pointing at.
@@ -29,6 +25,10 @@ void LinkedListNode::SetNextNodePointer(LinkedListNode* IncomingNexNodePointer)
 {
     nextNode = IncomingNexNodePointer;
 }
+void LinkedListNode::SetIndexID(int IncomingAdjacencyListIndex)
+{
+    IndexID = IncomingAdjacencyListIndex;
+}
 LinkedListNode* LinkedListNode::GetPreviousNodePointer()
 {
     return previousNode;
@@ -37,7 +37,8 @@ LinkedListNode* LinkedListNode::GetNextNodePointer()
 {
     return nextNode;
 }
-Data* LinkedListNode::GetPointerToDataForAParticularClient()
+int LinkedListNode::GetIndexID()
 {
-    return PointerToDataForAParticularClient;
+    return IndexID;
 }
+
