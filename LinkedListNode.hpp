@@ -8,7 +8,7 @@
 #include "Data.hpp"
 #include <iostream>
 
-//class Data;
+class Data;
 
 class LinkedListNode
 {

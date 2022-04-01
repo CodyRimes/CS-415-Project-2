@@ -6,6 +6,7 @@
 #define CS415PROJECT2_DATA_HPP
 #include "LinkedListNode.hpp"
 
+class LinkedListNode;
 
 class Data
 {
@@ -14,6 +15,7 @@ private:
     int EndDate;
     int AmountWillingToPay;
     int IncomingEdges;
+    int indexID;
     LinkedListNode* PointerToCorrespondingLinkedList;
 
 public:
@@ -27,6 +29,7 @@ public:
     void SetEndDate(int End);
     void SetAmountWillingToPay(int AmountToPay);
     void SetIncomingEdgesCount(int NumberOfIncomingEdges);
+    void SetIndexID(int WhereTheClientIsInTheAdjacencyListViaIndex);
     void SetPointerToCorrespondingLinkedList(LinkedListNode* PointToThisLinkedList);
 
     //Getters for private attributes (in case we need to do so later on in the program)
@@ -34,6 +37,7 @@ public:
     int GetEndDate();
     int GetAmountWillingToPay();
     int GetIncomingEdgesCount();
+    int GetIndexID();
     LinkedListNode* GetPointerToCorrespondingLinkedList();
 
     void PrintData();

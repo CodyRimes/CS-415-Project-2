@@ -35,6 +35,7 @@ public:
     void TopologicalSort();
     void FindGraphEdgeConnections();
     void PrintGraph();
+    void PrintLinkedList();
 
 
 };
