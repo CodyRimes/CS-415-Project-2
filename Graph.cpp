@@ -146,20 +146,14 @@ void Graph::TopologicalSort()
         {
             //We push that client/graph node into our queue
             OurTopologicalSortQueue.push(AdjacencyList.at(i));
+	    
 	}
-	else{
-	  while(AdjacencyList.at(i)->GetIncomingEdgesCount() != 0){
-	    
-	    edges = AdjacencyList.at(i)->GetIncomingEdgesCount();
-	    
-            //We then need to decrement that graph node's neighbor's edge counts by one. Note how in our adjacency list all neighbors are attached to this graph node in the same linked list
-	    AdjacencyList.at(i)->SetIncomingEdgesCount(edges-1);
-	  }    
-        }
     }
     
 
 }
+
+
 
 
 void Graph::PrintGraph()
