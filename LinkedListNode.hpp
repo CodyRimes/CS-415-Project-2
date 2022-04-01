@@ -10,23 +10,43 @@
 #include <stdlib.h>
 
 class Data;
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/main
 class LinkedListNode
 {
 private:
 
     LinkedListNode* previousNode;
     LinkedListNode* nextNode;
+<<<<<<< HEAD
   Data *PointerToDataForAParticularClient; 
+=======
+    int IndexID;
+
+    //Data* PointerToDataForAParticularClient;
+>>>>>>> origin/main
 
 
 
 public:
-    void SetPointerToDataForAParticularClient(Data* IncomingPointerToDataForAParticularClient);
+    //Constructor
+    LinkedListNode();
+    //Parameterized Constructor
+    LinkedListNode(LinkedListNode*, LinkedListNode*);
+
+    //Setters
+    //void SetPointerToDataForAParticularClient(Data* IncomingPointerToDataForAParticularClient);
     void SetPreviousNodePointer(LinkedListNode* IncomingGraphNodePointer);
     void SetNextNodePointer(LinkedListNode* IncomingGraphNodePointer);
+    void SetIndexID(int IncomingAdjacencyListIndex);
+
+    //Getters
     LinkedListNode* GetPreviousNodePointer();
     LinkedListNode* GetNextNodePointer();
-    Data* GetPointerToDataForAParticularClient();
+    int GetIndexID();
+    //Data* GetPointerToDataForAParticularClient();
 
 };
 

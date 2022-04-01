@@ -30,10 +30,13 @@ public:
     Graph();
     //Parameterized constructor
     Graph(string InputFileName);
-    void AddEdge(LinkedListNode *, LinkedListNode *);
+    void AddEdge(Data&, Data&);
     void AddVertexNode(Data);
+<<<<<<< HEAD
     void TopologicalSort();
   int MaxRental();
+  vector <Data *> TopologicalSort(vector<Data *> clients);
+>>>>>>> origin/main
     void FindGraphEdgeConnections();
     void PrintGraph();
 

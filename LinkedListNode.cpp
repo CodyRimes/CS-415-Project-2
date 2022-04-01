@@ -4,18 +4,30 @@
 
 #include "LinkedListNode.hpp"
 #include "Data.hpp"
+LinkedListNode::LinkedListNode()
+{
+    previousNode = nullptr;
+    nextNode = nullptr;
+}
+LinkedListNode::LinkedListNode(LinkedListNode * PointToThePreviousNode, LinkedListNode * PointToTheNextNode)
+{
+    previousNode = PointToThePreviousNode;
+    nextNode = PointToTheNextNode;
+}
 
-void LinkedListNode::SetPointerToDataForAParticularClient(Data* IncomingPointerToDataForAParticularClient)
+
+void LinkedListNode::SetPreviousNodePointer(LinkedListNode* IncomingPreviousNodePointer)
 {
-    PointerToDataForAParticularClient = IncomingPointerToDataForAParticularClient;
+    //Note how this is not a pointer pointing at another pointer, but it is assigning our pointer to point at the same thing the incoming pointer is pointing at.
+    previousNode = IncomingPreviousNodePointer;
 }
-void LinkedListNode::SetPreviousNodePointer(LinkedListNode* IncomingGraphNodePointer)
+void LinkedListNode::SetNextNodePointer(LinkedListNode* IncomingNexNodePointer)
 {
-    previousNode = IncomingGraphNodePointer;
+    nextNode = IncomingNexNodePointer;
 }
-void LinkedListNode::SetNextNodePointer(LinkedListNode* IncomingGraphNodePointer)
+void LinkedListNode::SetIndexID(int IncomingAdjacencyListIndex)
 {
-    nextNode = IncomingGraphNodePointer;
+    IndexID = IncomingAdjacencyListIndex;
 }
 LinkedListNode* LinkedListNode::GetPreviousNodePointer()
 {
@@ -25,7 +37,8 @@ LinkedListNode* LinkedListNode::GetNextNodePointer()
 {
     return nextNode;
 }
-Data* LinkedListNode::GetPointerToDataForAParticularClient()
+int LinkedListNode::GetIndexID()
 {
-    return PointerToDataForAParticularClient;
+    return IndexID;
 }
+

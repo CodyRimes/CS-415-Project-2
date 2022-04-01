@@ -16,6 +16,7 @@ int main()
 
     //Create a graph object with the file name to open given to us above
     Graph OurGraphObject(FileName);
+    OurGraphObject.FindGraphEdgeConnections();
     OurGraphObject.PrintGraph();
 
     /*

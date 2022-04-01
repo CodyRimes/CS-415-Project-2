@@ -46,11 +46,11 @@ Graph::Graph(string InputFileName)
     int EndDate;
     int AmountWillingToPay;
 
-    /*
+
     //Making a counter so for each iteration in our while loop we will be adding a client to
     //the appropriate spot in our adjacency list
     int counter = 0;
-    */
+
 
     //NOTE: We need to parse one line of input, that being start day, end day, and amount willing to pay
     //We then need to put those three elements in a graph vertex/node
@@ -62,15 +62,43 @@ Graph::Graph(string InputFileName)
         //Getting a line of input from our input file and parsing it into the appropriate variables
         inputFileStreamObject >> StartDate >> EndDate >> AmountWillingToPay;
         //We then need to make a Data object with these values
-        Data OurDataForAClient(StartDate, EndDate,AmountWillingToPay);
+        Data* OurDataForAClient = new Data(StartDate, EndDate,AmountWillingToPay);
+        //Data* OurDataForAClient = new Data(StartDate, EndDate,AmountWillingToPay);
+        //Lets make a LinkedListNode object for our client to start it's linked list
+        //LinkedListNode* ClientsLinkedList = new LinkedListNode();
+
+        /////////////////////////////////////
+        //Note why to not use this method:
+        //Dr. Gondree: "If you use this method the object is made in the stack, and every time this while loop runs CLientLinkedList2 will be overwritten. Where as the above method
+        //is put into the heap, and will not overwritten and then lost when this while loop terminates."
+        //Test this theory
+        //LinkedListNode ClientsLinkedList2;
+        //OurDataForAClient.SetPointerToCorrespondingLinkedList(&ClientsLinkedList2);
+        /////////////////////////////////////
+
+        //We need to point that Data object to its LinkedListNode object
+        //OurDataForAClient->SetPointerToCorrespondingLinkedList(ClientsLinkedList);
+
+
+        //Giving a reference for the linked list to refer back to via the index of where the client will be stored inside the adjacency list/vector
+        //ClientsLinkedList->SetIndexID(counter);
+
+        //Use our counter to correctly track where this client would be pushed into the vector i.e. our adjacencyList
+        OurDataForAClient->SetIndexID(counter);
+
         //Now that we have our client's data, put it into our adjacency list that is a part of our Graph Object
-        AddVertexNode(GraphNodeToBePutInOurAdjacencyList);
+        AddVertexNode(*OurDataForAClient);
 
         /*
+        AdjacencyList.at(counter).SetPointerToCorrespondingLinkedList(ClientsLinkedList);
+        ClientsLinkedList->SetPointerToDataForAParticularClient(&(AdjacencyList[counter]));
+        AdjacencyList.at(counter).SetIndexID(counter);
+        */
+
         //We've gone through one while loop iteration by this point, so increment our counter
         //so we can put the next GraphNode in the right spot in our adjacencylist
         counter = counter + 1;
-         */
+
     }
 
 
@@ -85,15 +113,45 @@ void Graph::AddVertexNode(Data IncomingClientToBeAddedToAdjacencyList)
     AdjacencyList.push_back(IncomingClientToBeAddedToAdjacencyList);
 }
 //Add an edge to a particular vertex node in our adjacency list
-void Graph::AddEdge(GraphNode* ClientToHaveEdgeAddedTo, GraphNode* ClientThatIsAPossiblePath)
+void Graph::AddEdge(Data &ClientToHaveEdgeAddedTo, Data &ClientThatIsAPossiblePath)
 {
-    //First we need to make a copy of the ClientThatIsAPossiblePath's node, that way we don't mess up the original that's currently in the adjacency list
-    GraphNode* CopyOfClientThatIsAPossiblePathNode = new GraphNode(ClientThatIsAPossiblePath->GetStartDate(), ClientThatIsAPossiblePath->GetEndDate(), ClientThatIsAPossiblePath->GetAmountWillingToPay());
 
-    //We will then have the ClientToHaveEdgeAddedTo node nextNode pointer set to point to that ClientThatIsAPossiblePath node and vice versa (have the ClientThatIsAPossiblePath previous pointer set to point
-    //back at the ClientToHaveEdgeAddedTo node)
-    ClientToHaveEdgeAddedTo->SetNextNodePointer(CopyOfClientThatIsAPossiblePathNode);
-    CopyOfClientThatIsAPossiblePathNode->SetPreviousNodePointer(ClientToHaveEdgeAddedTo);
+    //We have two Data objects. One is the client that needs to have the edge added to, and one is the client that needs to be connected to the client that needs an edge added to.
+    //To do that we must first make another LinkedListNode object
+    LinkedListNode* LinkedListToBeAdded = new LinkedListNode();
+
+    //If the client to have it's edge added to has it's linked list node's next pointer pointing to null, that means besides it's first node in it's linked list (which references the data itself), it has no
+    //nodes in it's linked list. We should add our new node following that default node
+    if (ClientToHaveEdgeAddedTo.GetPointerToCorrespondingLinkedList() == nullptr)
+    {
+        //Then we need to have client that needs its edge added to LinkedListNode to point to that LinkedListNode we are adding
+        ClientToHaveEdgeAddedTo.SetPointerToCorrespondingLinkedList(LinkedListToBeAdded);
+        //Now we need to have the LinkedListNode that is to be added point back at the client's corresponding linked list as well
+        //LinkedListToBeAdded->SetPreviousNodePointer(ClientToHaveEdgeAddedTo.GetPointerToCorrespondingLinkedList());
+        //Finally we need to point the LinkedListNode that we want to add to be point at the appropriate client's data
+        //LinkedListToBeAdded->SetPointerToDataForAParticularClient(ClientThatIsAPossiblePath.GetPointerToCorrespondingLinkedList()->GetPointerToDataForAParticularClient());
+        //Would this work?
+        LinkedListToBeAdded->SetIndexID(ClientThatIsAPossiblePath.GetIndexID());
+    }
+    //Otherwise we have client that has a developed linked list and we must first reach the end of that linked list so we can add the new node to the end of the list
+    else
+    {
+        LinkedListNode* TemporaryHead = ClientToHaveEdgeAddedTo.GetPointerToCorrespondingLinkedList();
+
+        while (TemporaryHead->GetNextNodePointer() != nullptr)
+        {
+            TemporaryHead = TemporaryHead->GetNextNodePointer();
+        }
+        //Since we've broken this while loop we now know the node we're at has a NextNodePointer equal to nullptr. We want to change that
+        TemporaryHead->SetNextNodePointer(LinkedListToBeAdded);
+        //The node to be added should also point back at the former "end" of the linked list
+        LinkedListToBeAdded->SetPreviousNodePointer(TemporaryHead);
+        //Finally we need to also make sure our LinkedListNode to be added is pointing at the correct client it is to be referencing
+        //LinkedListToBeAdded->SetPointerToDataForAParticularClient(ClientThatIsAPossiblePath.GetPointerToCorrespondingLinkedList()->GetPointerToDataForAParticularClient());
+        LinkedListToBeAdded->SetIndexID(ClientThatIsAPossiblePath.GetIndexID());
+    }
+
+
 }
 
 void Graph::FindGraphEdgeConnections()
@@ -109,19 +167,23 @@ void Graph::FindGraphEdgeConnections()
         {
             //If the client/GraphNode we're at's end date is less than or equal to the start date of the for loop that is looking at all other clients
             //then we can add this other client as an edge to our initial client
-            if (AdjacencyList.at(i)->GetEndDate() <= AdjacencyList.at(j)->GetStartDate())
+            if (AdjacencyList.at(i).GetEndDate() <= AdjacencyList.at(j).GetStartDate())
             {
                 //Add the client at the jth position as an edge to the client at i
                 AddEdge(AdjacencyList.at(i), AdjacencyList.at(j));
+
+
                 //Since we know that the client at the jth position now has a an incoming edge from the client at the ith position, we need to account for that in our graph node and add an edge to that graph node
-                AdjacencyList.at(j)->SetIncomingEdgesCount(AdjacencyList.at(j)->GetIncomingEdgesCount() + 1);
+                AdjacencyList.at(j).SetIncomingEdgesCount(AdjacencyList.at(j).GetIncomingEdgesCount() + 1);
+
             }
         }
     }
 
 }
+
 //Topological sort of the adjacency list using Breadth First Search (BFS i.e. queue method)
-void Graph::TopologicalSort()
+vector<Data *> Graph::TopologicalSort(vector<Data *> clients)
 {
     //"First visit all edges, counting the number of edges that lead to each vertex (i.e., count the number of prerequisites for each vertex).
     //All vertices with no prerequisites are placed on the queue. We then begin processing the queue.
@@ -135,31 +197,44 @@ void Graph::TopologicalSort()
     //We will now be using a modified version of Topological sort in order to find the optimal revenue path that would give us the most bang for our buck
     // We will be using the Breadth First Search method (queue) to sort through those edges
 
-    //Create the queue to push GraphNodes that have incoming edge counts of zero to
-    queue <GraphNode*> OurTopologicalSortQueue;
-    int edges = 0;
-    //Walk through the adjacency list (we should only need to visit the first node/head of each linked list in the adjacency list)
-    for (int i = 0; i < AdjacencyList.size(); i++)
-    {
-        //If the incoming edge count of a particular client/graph node in the adjacency list is 0..
-        if (AdjacencyList.at(i)->GetIncomingEdgesCount() == 0)
-        {
-            //We push that client/graph node into our queue
-            OurTopologicalSortQueue.push(AdjacencyList.at(i));
-	    
-	}
-    }
-    
+    queue <Data *> top_q;
+    vector<Data *> result;
 
+    auto *current = new Data(0, 0, 0, 0, nullptr);
+  
+    for (auto &it: clients) {
+      if (it->IncomingEdges == 0){
+	top_q.push(it);
+      }
+      while (top_q.size() > 0){
+	current = top_q.front();
+	assert(current->IncomingEdges == 0);
+	// current = top_q.pop();
+	top_q.pop();
+	result.push_back(current);
+	// how do we point to the client's index?
+	for (auto &neighbors: AdjacencyList[current-> GetIndexId()]){
+	  neighbors->IncomingEdges - 1;
+	  if (neighbors->IncomingEdges == 0){
+	    top_q.push(neighbors);
+	  }
+	}
+      }
+    }
+    return result; 
 }
 
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> origin/main
 void Graph::PrintGraph()
 {
     for (int i = 0; i < AdjacencyList.size(); i++)
     {
-        AdjacencyList.at(i)->printGraphNode();
+        AdjacencyList.at(i).PrintData();
     }
 }
+
