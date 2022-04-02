@@ -16,6 +16,7 @@ private:
     int AmountWillingToPay;
     int IncomingEdges;
     int indexID;
+    bool HasThisClientBeenSeenBeforeInBreadthFirstSearch;
     LinkedListNode* PointerToCorrespondingLinkedList;
 
 public:
@@ -30,6 +31,7 @@ public:
     void SetAmountWillingToPay(int AmountToPay);
     void SetIncomingEdgesCount(int NumberOfIncomingEdges);
     void SetIndexID(int WhereTheClientIsInTheAdjacencyListViaIndex);
+    void SetHasItBeenSeenBefore(bool Answer);
     void SetPointerToCorrespondingLinkedList(LinkedListNode* PointToThisLinkedList);
 
     //Getters for private attributes (in case we need to do so later on in the program)
@@ -38,6 +40,7 @@ public:
     int GetAmountWillingToPay();
     int GetIncomingEdgesCount();
     int GetIndexID();
+    bool GetHasItBeenSeenBefore();
     LinkedListNode* GetPointerToCorrespondingLinkedList();
 
     void PrintData();

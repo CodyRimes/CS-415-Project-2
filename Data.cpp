@@ -11,6 +11,7 @@ Data::Data()
     EndDate = 0;
     AmountWillingToPay = 0;
     IncomingEdges = 0;
+    HasThisClientBeenSeenBeforeInBreadthFirstSearch = false;
     PointerToCorrespondingLinkedList = nullptr;
 }
 Data::Data(int Start, int End, int AmountToPay)
@@ -19,6 +20,7 @@ Data::Data(int Start, int End, int AmountToPay)
     EndDate = End;
     AmountWillingToPay = AmountToPay;
     IncomingEdges = 0;
+    HasThisClientBeenSeenBeforeInBreadthFirstSearch = false;
     PointerToCorrespondingLinkedList = nullptr;
 }
 
@@ -42,6 +44,10 @@ void Data::SetIncomingEdgesCount(int NumberOfIncomingEdges)
 void Data::SetIndexID(int WhereTheClientIsInTheAdjacencyListViaIndex)
 {
     indexID = WhereTheClientIsInTheAdjacencyListViaIndex;
+}
+void Data::SetHasItBeenSeenBefore(bool Answer)
+{
+    HasThisClientBeenSeenBeforeInBreadthFirstSearch = Answer;
 }
 void Data::SetPointerToCorrespondingLinkedList(LinkedListNode* PointToThisLinkedList)
 {
@@ -67,6 +73,10 @@ int Data::GetIncomingEdgesCount()
 int Data::GetIndexID()
 {
     return indexID;
+}
+bool Data::GetHasItBeenSeenBefore()
+{
+    return HasThisClientBeenSeenBeforeInBreadthFirstSearch;
 }
 LinkedListNode* Data::GetPointerToCorrespondingLinkedList()
 {
