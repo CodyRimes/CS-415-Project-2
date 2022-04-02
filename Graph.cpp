@@ -51,6 +51,15 @@ Graph::Graph(string InputFileName)
     //the appropriate spot in our adjacency list
     int counter = 0;
 
+    //Hard code the start node of the graph into the adjacency list
+    Data* DummyStartNode = new Data(0,0,0);
+    //Set it's index ID (should be zero since it's the start of the graph and should be the first thing entered into our adjacency list). Use the counter.
+    DummyStartNode->SetIndexID(counter);
+    //And input it into the adjacency list vector
+    AddVertexNode(*DummyStartNode);
+    //Then increment the counter to reflect the addition so when we add nodes further along down the code we will have the correct reference to the correct index position they were entered into
+    counter = counter + 1;
+
 
     //NOTE: We need to parse one line of input, that being start day, end day, and amount willing to pay
     //We then need to put those three elements in a graph vertex/node
@@ -101,6 +110,15 @@ Graph::Graph(string InputFileName)
 
     }
 
+    //We are done entering in input from the input file, but we still need to enter the last dummy node, which will represent the end node in our graph. Lets do that now
+    //Hard code the end node of the graph into the adjacency list
+    Data* DummyEndNode = new Data(99999999999,999999999990909,0);
+    //Set it's index ID. Use the counter that we've been incrementing earlier in the while loop above
+    DummyEndNode->SetIndexID(counter);
+    //And input it into the adjacency list vector
+    AddVertexNode(*DummyEndNode);
+    //Then increment the counter for safe measure, just in case ;) (it's good practice)
+    counter = counter + 1;
 
     inputFileStreamObject.close();
 
@@ -183,7 +201,7 @@ void Graph::FindGraphEdgeConnections()
 }
 
 //Topological sort of the adjacency list using Breadth First Search (BFS i.e. queue method)
-void Graph::TopologicalSort()
+vector<Data> Graph::TopologicalSort()
 {
     //"First visit all edges, counting the number of edges that lead to each vertex (i.e., count the number of prerequisites for each vertex).
     //All vertices with no prerequisites are placed on the queue. We then begin processing the queue.
@@ -197,22 +215,66 @@ void Graph::TopologicalSort()
     //We will now be using a modified version of Topological sort in order to find the optimal revenue path that would give us the most bang for our buck
     // We will be using the Breadth First Search method (queue) to sort through those edges
 
+    vector<Data> TopologicallySortedGraph;
+
     //Create the queue to push GraphNodes that have incoming edge counts of zero to
-    queue <GraphNode*> OurTopologicalSortQueue;
+    queue <Data> OurTopologicalSortQueue;
 
     //Walk through the adjacency list (we should only need to visit the first node/head of each linked list in the adjacency list)
     for (int i = 0; i < AdjacencyList.size(); i++)
     {
         //If the incoming edge count of a particular client/graph node in the adjacency list is 0..
-        if (AdjacencyList.at(i)->GetIncomingEdgesCount() == 0)
+        if (AdjacencyList.at(i).GetIncomingEdgesCount() == 0)
         {
             //We push that client/graph node into our queue
             OurTopologicalSortQueue.push(AdjacencyList.at(i));
             //We then need to decrement that graph node's neighbor's edge counts by one. Note how in our adjacency list all neighbors are attached to this graph node in the same linked list
+            //if it has a neighbor
+            if (AdjacencyList.at(i).GetPointerToCorrespondingLinkedList() != nullptr)
+            {
+                //Make a temporary pointer to that neighbor
+                LinkedListNode* TemporaryHead = AdjacencyList.at(i).GetPointerToCorrespondingLinkedList();
+                //Get that neighbors reference index back to the adjacency graph
+                int IndexReference = TemporaryHead->GetIndexID();
+                //Correct the incomding edge count at the adjacency list of that neighbor in this linked list
+                AdjacencyList.at(IndexReference).SetIncomingEdgesCount(AdjacencyList.at(IndexReference).GetIncomingEdgesCount() - 1);
+
+                //If there's another node in the linked list
+                while (TemporaryHead->GetNextNodePointer() != nullptr)
+                {
+                    //Move to it
+                    TemporaryHead = TemporaryHead->GetNextNodePointer();
+                    //And do the same thing as the lines above
+                    IndexReference = TemporaryHead->GetIndexID();
+                    AdjacencyList.at(IndexReference).SetIncomingEdgesCount(AdjacencyList.at(IndexReference).GetIncomingEdgesCount() - 1);
+                }
+                //Once we break this while loop we know there are no more nodes in the linked list to process
+            }
+
+            else
+            {
+                cout << "Client " << AdjacencyList.at(i).GetIndexID() << "at index position in the adjacency list " << i << " does not have any neighbors to decrement and has zero incoming edges" << endl;
+            }
+            //We now have handled decrementing the neighbors one particular client that has zero incoming edges
 
         }
-    }
 
+        //While the queue isn't empty, we need to do the logic that is inside this while loop
+        while (!OurTopologicalSortQueue.empty())
+        {
+        //We need to capture whatever is in front of the queue
+        Data OurTemporaryHolderForDataInQueue = OurTopologicalSortQueue.front();
+        //Push what is in front of the queue to the vector that will store the topological sorted graph
+        TopologicallySortedGraph.push_back(OurTemporaryHolderForDataInQueue);
+        //pop the front element in the queue to get the element that was inserted after it (remember a queue is a FIFO structure)
+        OurTopologicalSortQueue.pop();
+        }
+
+
+    }
+    //Once we have walked through
+
+    return TopologicallySortedGraph;
 }
 
 void Graph::PrintGraph()
@@ -222,4 +284,6 @@ void Graph::PrintGraph()
         AdjacencyList.at(i).PrintData();
     }
 }
+
+
 
