@@ -52,13 +52,13 @@ Graph::Graph(string InputFileName)
     int counter = 0;
 
     //Hard code the start node of the graph into the adjacency list
-    Data* DummyStartNode = new Data(0,0,0);
+    //Data* DummyStartNode = new Data(0,0,0);
     //Set it's index ID (should be zero since it's the start of the graph and should be the first thing entered into our adjacency list). Use the counter.
-    DummyStartNode->SetIndexID(counter);
+    //DummyStartNode->SetIndexID(counter);
     //And input it into the adjacency list vector
-    AddVertexNode(*DummyStartNode);
+    //AddVertexNode(*DummyStartNode);
     //Then increment the counter to reflect the addition so when we add nodes further along down the code we will have the correct reference to the correct index position they were entered into
-    counter = counter + 1;
+    //counter = counter + 1;
 
 
     //NOTE: We need to parse one line of input, that being start day, end day, and amount willing to pay
@@ -112,13 +112,13 @@ Graph::Graph(string InputFileName)
 
     //We are done entering in input from the input file, but we still need to enter the last dummy node, which will represent the end node in our graph. Lets do that now
     //Hard code the end node of the graph into the adjacency list
-    Data* DummyEndNode = new Data(99999999999,999999999990909,0);
+    //Data* DummyEndNode = new Data(99999999999,999999999990909,0);
     //Set it's index ID. Use the counter that we've been incrementing earlier in the while loop above
-    DummyEndNode->SetIndexID(counter);
+    //DummyEndNode->SetIndexID(counter);
     //And input it into the adjacency list vector
-    AddVertexNode(*DummyEndNode);
+    //AddVertexNode(*DummyEndNode);
     //Then increment the counter for safe measure, just in case ;) (it's good practice)
-    counter = counter + 1;
+    //counter = counter + 1;
 
     inputFileStreamObject.close();
 
@@ -247,7 +247,7 @@ vector<Data> Graph::TopologicalSort()
                     //If this client has no neighbors we would expect to see a nullptr
                     if (AdjacencyList.at(OurTemporaryHolderForDataInQueue.GetIndexID()).GetPointerToCorrespondingLinkedList() == nullptr)
                     {
-                        cout << " Client " << AdjacencyList.at(OurTemporaryHolderForDataInQueue.GetIndexID()).GetIndexID() << "does not have any neighbors" << endl;
+                        cout << " Client " << AdjacencyList.at(OurTemporaryHolderForDataInQueue.GetIndexID()).GetIndexID() + 1 << " does not have any neighbors" << endl;
                     }
 
                     //Otherwise we should expect a linked list of neighbors
@@ -260,8 +260,11 @@ vector<Data> Graph::TopologicalSort()
                         {
 
                         //We need to decrement all neighbors edge counts
-                        AdjacencyList.at(TemporaryHead->GetIndexID()).SetIncomingEdgesCount(AdjacencyList.at(TemporaryHead->GetIndexID()).GetIndexID() - 1);
+                        AdjacencyList.at(TemporaryHead->GetIndexID()).SetIncomingEdgesCount(AdjacencyList.at(TemporaryHead->GetIndexID()).GetIncomingEdgesCount() - 1);
+
                         //any neighbors that have edge counts equal to zero also need to be pushed into the queue
+                        //IF STATEMENT MAY NOT NEED TO BE HERE WITH QUEUE WHILE LOOP
+                        /*
                         if (AdjacencyList.at(TemporaryHead->GetIndexID()).GetIncomingEdgesCount() == 0)
                         {
                             //Push what is held at the adjacency list (using the linked list reference) into the queue
@@ -269,6 +272,9 @@ vector<Data> Graph::TopologicalSort()
                             //Since we are accounting for neighbors that have edge counts equal to zero and have pushed them into the queue, we need to mark them as seen so we don't process them again
                             AdjacencyList.at(TemporaryHead->GetIndexID()).SetHasItBeenSeenBefore(true);
                         }
+                         */
+
+
                         //Travel down the linked list
                         TemporaryHead = TemporaryHead->GetNextNodePointer();
                         }

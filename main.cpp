@@ -18,6 +18,18 @@ int main()
     Graph OurGraphObject(FileName);
     OurGraphObject.FindGraphEdgeConnections();
     OurGraphObject.PrintGraph();
+    vector <Data> CaptureMe;
+    CaptureMe = OurGraphObject.TopologicalSort();
+    cout << "The size of our topological sorted vector is: ";
+    cout << CaptureMe.size();
+    cout << endl;
+
+
+    for (int i = 0; i < CaptureMe.size(); i++)
+    {
+        cout <<  CaptureMe.at(i).GetIndexID() << endl;
+    }
+
 
     /*
     cout << "There are " + " clients in this file" << endl;
