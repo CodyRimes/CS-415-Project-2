@@ -16,6 +16,8 @@
 #include <string>
 using namespace std;
 
+
+
 class Graph
 {
 private:
@@ -37,6 +39,13 @@ public:
     vector <Data> TopologicalSort();
     void FindGraphEdgeConnections();
     void PrintGraph();
+
+    //Data GetMaxNeighbor(Data NodeToFindMaximumNeighborFor);
+    void GetMaxPath();
+    //Declaring a vector to hold sum values for optimal path
+    vector<int> SumValues;
+    //Declaring a vector to hold positions of max neighbor
+    vector<int> PositionsOfSumValues;
 
 
 };

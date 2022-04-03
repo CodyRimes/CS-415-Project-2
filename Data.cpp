@@ -11,6 +11,7 @@ Data::Data()
     EndDate = 0;
     AmountWillingToPay = 0;
     IncomingEdges = 0;
+    Sum = 0;
     HasThisClientBeenSeenBeforeInBreadthFirstSearch = false;
     PointerToCorrespondingLinkedList = nullptr;
 }
@@ -20,6 +21,7 @@ Data::Data(int Start, int End, int AmountToPay)
     EndDate = End;
     AmountWillingToPay = AmountToPay;
     IncomingEdges = 0;
+    Sum = 0;
     HasThisClientBeenSeenBeforeInBreadthFirstSearch = false;
     PointerToCorrespondingLinkedList = nullptr;
 }
@@ -36,6 +38,10 @@ void Data::SetEndDate(int End)
 void Data::SetAmountWillingToPay(int AmountToPay)
 {
     AmountWillingToPay = AmountToPay;
+}
+void Data::SetSum(int IncomingSum)
+{
+    Sum = IncomingSum;
 }
 void Data::SetIncomingEdgesCount(int NumberOfIncomingEdges)
 {
@@ -65,6 +71,10 @@ int Data::GetEndDate()
 int Data::GetAmountWillingToPay()
 {
     return AmountWillingToPay;
+}
+int Data::GetSum()
+{
+    return Sum;
 }
 int Data::GetIncomingEdgesCount()
 {
@@ -119,6 +129,5 @@ void Data::PrintData()
 
     }
     cout << endl;
-
 
 }

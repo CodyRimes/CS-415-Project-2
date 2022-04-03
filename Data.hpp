@@ -16,6 +16,7 @@ private:
     int AmountWillingToPay;
     int IncomingEdges;
     int indexID;
+    int Sum;
     bool HasThisClientBeenSeenBeforeInBreadthFirstSearch;
     LinkedListNode* PointerToCorrespondingLinkedList;
 
@@ -29,6 +30,7 @@ public:
     void SetStartDate(int Start);
     void SetEndDate(int End);
     void SetAmountWillingToPay(int AmountToPay);
+    void SetSum(int IncomingSum);
     void SetIncomingEdgesCount(int NumberOfIncomingEdges);
     void SetIndexID(int WhereTheClientIsInTheAdjacencyListViaIndex);
     void SetHasItBeenSeenBefore(bool Answer);
@@ -38,12 +40,14 @@ public:
     int GetStartDate();
     int GetEndDate();
     int GetAmountWillingToPay();
+    int GetSum();
     int GetIncomingEdgesCount();
     int GetIndexID();
     bool GetHasItBeenSeenBefore();
     LinkedListNode* GetPointerToCorrespondingLinkedList();
 
     void PrintData();
+
 };
 
 

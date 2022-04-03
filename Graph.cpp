@@ -36,10 +36,12 @@ Graph::Graph(string InputFileName)
         std::cout << "Make sure that " << InputFileName << " exists and is readable. Terminating.";
         exit(2);
     }
+    /*
     else
     {
         cout << "We are able to read the file. Reading..." << endl;
     }
+     */
 
     //Creating variables to capture input from our input file
     int StartDate;
@@ -242,9 +244,10 @@ vector<Data> Graph::TopologicalSort()
         //Decrement the edge count in the neighbors of source nodes
         //We'll need a temporary pointer to the linked list of our source node's in the adjacency list
 
-        if (AdjacencyList.at(SourceVertexes.at(i).GetIndexID()).GetPointerToCorrespondingLinkedList() == nullptr) {
-            cout << "Client " << AdjacencyList.at(SourceVertexes.at(i).GetIndexID()).GetIndexID() + 1
-                 << " does not have any neighbors" << endl;
+        if (AdjacencyList.at(SourceVertexes.at(i).GetIndexID()).GetPointerToCorrespondingLinkedList() == nullptr)
+        {
+            ;
+            //cout << "Client " << AdjacencyList.at(SourceVertexes.at(i).GetIndexID()).GetIndexID() + 1 << " does not have any neighbors" << endl;
         }
             //If the temporary pointer to the adjacency list does not come back as a nullptr, it must have a linked list it's pointing to
         else {
@@ -253,10 +256,10 @@ vector<Data> Graph::TopologicalSort()
                     SourceVertexes.at(i).GetIndexID()).GetPointerToCorrespondingLinkedList();
 
             //We need to travel down the linked list as well, so use a while loop to keep going down the neighbors
-            while (TemporaryHead != nullptr) {
+            while (TemporaryHead != nullptr)
+            {
                 //We need to decrement all neighbors edge counts
-                AdjacencyList.at(TemporaryHead->GetIndexID()).SetIncomingEdgesCount(
-                        AdjacencyList.at(TemporaryHead->GetIndexID()).GetIncomingEdgesCount() - 1);
+                AdjacencyList.at(TemporaryHead->GetIndexID()).SetIncomingEdgesCount(AdjacencyList.at(TemporaryHead->GetIndexID()).GetIncomingEdgesCount() - 1);
 
                 //Travel down the linked list
                 TemporaryHead = TemporaryHead->GetNextNodePointer();
@@ -285,7 +288,8 @@ vector<Data> Graph::TopologicalSort()
                 //We then need to check if it has neighbors
                 if (AdjacencyList.at(i).GetPointerToCorrespondingLinkedList() == nullptr)
                 {
-                    cout << "Client " << AdjacencyList.at(i).GetIndexID() + 1 << " does not have any neighbors" << endl;
+                    ;
+                    //cout << "Client " << AdjacencyList.at(i).GetIndexID() + 1 << " does not have any neighbors" << endl;
                 }
                     //If the temporary pointer to the adjacency list does not come back as a nullptr, it must have a linked list it's pointing to
                 else
@@ -320,6 +324,121 @@ vector<Data> Graph::TopologicalSort()
     return TopologicallySortedGraph;
 
 }
+/*
+//Given a data object
+Data Graph::GetMaxNeighbor(Data NodeToFindMaximumNeighborFor)
+{
+    //Make a data object that is ready to be filled with the appropriate values
+    Data OurDataObjectToPassBack;
+
+    //Check the adjacency linked list to see if the node we want even has a linked list
+    if (AdjacencyList.at(NodeToFindMaximumNeighborFor.GetIndexID()).GetPointerToCorrespondingLinkedList() == nullptr)
+    {
+        cout << "The node you wanted a maximum neighbor for does not have any neighbors" << endl;
+        return NodeToFindMaximumNeighborFor;
+    }
+    //If the else statement runs we have a linked list to check the maximum value for
+    else
+    {
+        //Lets set a temporary LinkedListNode pointer to where the adjacency list is pointing to
+        LinkedListNode *TemporaryHead3 = AdjacencyList.at(NodeToFindMaximumNeighborFor.GetIndexID()).GetPointerToCorrespondingLinkedList();
+
+        //We need to travel down the linked list as well, so use a while loop to keep going down the neighbors list
+        while (TemporaryHead3 != nullptr)
+        {
+            //We need compare if the node we're at has a larger value than our holder variable, if it does, set the holder variable to that larger value
+            if (AdjacencyList.at(TemporaryHead3->GetIndexID()).GetAmountWillingToPay() > OurDataObjectToPassBack.GetAmountWillingToPay());
+            {
+                //Set everything in our once empty data object equal to the neighbor in the linked list that has a higher amount will to pay than what our data object to pass back currently holds
+                OurDataObjectToPassBack.SetHasItBeenSeenBefore(AdjacencyList.at(TemporaryHead3->GetIndexID()).GetHasItBeenSeenBefore());
+                OurDataObjectToPassBack.SetIncomingEdgesCount(AdjacencyList.at(TemporaryHead3->GetIndexID()).GetIncomingEdgesCount());
+                OurDataObjectToPassBack.SetIndexID(AdjacencyList.at(TemporaryHead3->GetIndexID()).GetIndexID());
+                OurDataObjectToPassBack.SetPointerToCorrespondingLinkedList(AdjacencyList.at(TemporaryHead3->GetIndexID()).GetPointerToCorrespondingLinkedList());
+                OurDataObjectToPassBack.SetEndDate(AdjacencyList.at(TemporaryHead3->GetIndexID()).GetEndDate());
+                OurDataObjectToPassBack.SetStartDate(AdjacencyList.at(TemporaryHead3->GetIndexID()).GetStartDate());
+                OurDataObjectToPassBack.SetSum(AdjacencyList.at(TemporaryHead3->GetIndexID()).GetSum());
+                OurDataObjectToPassBack.SetAmountWillingToPay(AdjacencyList.at(TemporaryHead3->GetIndexID()).GetAmountWillingToPay());
+
+
+            }
+            //Travel down the linked list
+            TemporaryHead3 = TemporaryHead3->GetNextNodePointer();
+        }
+    }
+
+    return OurDataObjectToPassBack;
+}
+*/
+
+void Graph::GetMaxPath()
+{
+
+    //Declare vector to capture topological sort of our graph
+    vector<Data> TopologicallySortedGraph;
+
+    //Receive the topologically sorted vector
+    TopologicallySortedGraph = this->TopologicalSort();
+
+    //Make sure the vector that holds all sum values is the same size as the topologically sorted vector
+    SumValues.resize(TopologicallySortedGraph.size());
+
+    //Make sure the vector that holds all sum positions is the same size as the topologically sorted vector
+    PositionsOfSumValues.resize(TopologicallySortedGraph.size());
+
+    //Declare the variables that will be used to hold the values we will be pushing into their appropriate vectors
+    int LargestNeighborValue = 0;
+    int LargestNeighborIndexPosition = 0;
+
+    //We need to walk through the topologically sorted vector in reverse
+    for (int i = TopologicallySortedGraph.size() - 1; i > 0; i--) {
+
+        //Take the maximum value of the  neighbor of the vertex we're at, and sum it with the vertex we're at and store it in the sum values vector
+        //Check the adjacency linked list to see if the node we want even has a linked list
+        if (AdjacencyList.at(TopologicallySortedGraph.at(i).GetIndexID()).GetPointerToCorrespondingLinkedList() == nullptr)
+        {
+            //cout << "The node you wanted a maximum neighbor for does not have any neighbors" << endl;
+            //Store the largest value we've seen so far
+            LargestNeighborValue = AdjacencyList.at(TopologicallySortedGraph.at(i).GetIndexID()).GetAmountWillingToPay();
+            //And capture the index position of that neighbor's position in the adjacency list
+            LargestNeighborIndexPosition = AdjacencyList.at(TopologicallySortedGraph.at(i).GetIndexID()).GetIndexID();
+        }
+            //If the else statement runs we have a linked list to check the maximum value for
+        else
+            {
+            //Lets set a temporary LinkedListNode pointer to where the adjacency list is pointing to
+            LinkedListNode *TemporaryHead3 = AdjacencyList.at(TopologicallySortedGraph.at(i).GetIndexID()).GetPointerToCorrespondingLinkedList();
+
+            //We need to travel down the linked list as well, so use a while loop to keep going down the neighbors list
+            while (TemporaryHead3 != nullptr)
+            {
+                //We need compare if the node we're at has a larger value than our holder variable, if it does, set the holder variable to that larger value
+                if (AdjacencyList.at(TemporaryHead3->GetIndexID()).GetAmountWillingToPay() > LargestNeighborValue);
+                {
+                    //Store the largest value we've seen so far
+                    LargestNeighborValue = AdjacencyList.at(TemporaryHead3->GetIndexID()).GetAmountWillingToPay() + AdjacencyList.at(TopologicallySortedGraph.at(i).GetIndexID()).GetAmountWillingToPay();
+                    //Now set the Adjacency's list amount willing to pay with the summed value stored in LargestNeighborValue, so if we ever reference it again we'll get the correct value
+                    AdjacencyList.at(TemporaryHead3->GetIndexID()).SetAmountWillingToPay(LargestNeighborValue);
+                    //And capture the index position of that neighbor's position in the adjacency list
+                    LargestNeighborIndexPosition = AdjacencyList.at(TemporaryHead3->GetIndexID()).GetIndexID();
+
+                }
+                //Travel down the linked list
+                TemporaryHead3 = TemporaryHead3->GetNextNodePointer();
+            }
+        }
+        //Now that we have the Largest Neighbor's value for this particular vertex we are at in our topologically sorted vector, we now need to place it into the appropriate vector at the appropriate position
+        SumValues.at(i) = LargestNeighborValue;
+        //Now that we have the Largest Neighbor's index position for this particular vertex we are at in our topologically sorted vector, we now need to place it into the appropriate vector at the appropriate position
+        PositionsOfSumValues.at(i) = LargestNeighborIndexPosition;
+
+
+    }
+
+
+}
+
+
+
 
 
 
