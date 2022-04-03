@@ -22,6 +22,7 @@ private:
     int NumberOfEdges;
     int NumberOfVertexNodes;
     vector <Data> AdjacencyList;
+    vector <Data> SourceVertexes;
     //Do we need these?
     GraphNode* StartNode;
     GraphNode* EndNode;
@@ -32,6 +33,7 @@ public:
     Graph(string InputFileName);
     void AddEdge(Data&, Data&);
     void AddVertexNode(Data);
+    void AddSourceVertexes();
     vector <Data> TopologicalSort();
     void FindGraphEdgeConnections();
     void PrintGraph();

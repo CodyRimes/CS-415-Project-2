@@ -199,6 +199,19 @@ void Graph::FindGraphEdgeConnections()
     }
 
 }
+//Since we are not using a start vertex for our program, all vertexes in our adjacency list that start with an incoming edge count of 0 are source nodes, and we need to store those source nodes
+//for when we do our topological sort and later on in our program for calculating the path with max value
+void Graph::AddSourceVertexes()
+{
+    for (int i = 0; i < AdjacencyList.size(); i++)
+    {
+        if (AdjacencyList.at(i).GetIncomingEdgesCount() == 0)
+        {
+            SourceVertexes.push_back(AdjacencyList.at(i));
+        }
+
+    }
+}
 
 //Topological sort of the adjacency list using Breadth First Search (BFS i.e. queue method)
 vector<Data> Graph::TopologicalSort()
@@ -218,119 +231,84 @@ vector<Data> Graph::TopologicalSort()
     vector<Data> TopologicallySortedGraph;
 
     //Create the queue to push GraphNodes that have incoming edge counts of zero to
-    queue <Data> OurTopologicalSortQueue;
+    queue<Data> OurTopologicalSortQueue;
 
-    //Walk through the adjacency list (we should only need to visit the first node/head of each linked list in the adjacency list)
-    for (int i = 0; i < AdjacencyList.size(); i++)
+    //Since all of our source nodes have incoming edges equal to zero, push them in
+    for (int i = 0; i < SourceVertexes.size(); i++) {
+        //Push into the queue
+        OurTopologicalSortQueue.push(SourceVertexes.at(i));
+        //Mark those source vertexes as seen and processed in the corresponding adjacency list
+        AdjacencyList.at(SourceVertexes.at(i).GetIndexID()).SetHasItBeenSeenBefore(true);
+        //Decrement the edge count in the neighbors of source nodes
+        //We'll need a temporary pointer to the linked list of our source node's in the adjacency list
+
+        if (AdjacencyList.at(SourceVertexes.at(i).GetIndexID()).GetPointerToCorrespondingLinkedList() == nullptr) {
+            cout << "Client " << AdjacencyList.at(SourceVertexes.at(i).GetIndexID()).GetIndexID() + 1
+                 << " does not have any neighbors" << endl;
+        }
+            //If the temporary pointer to the adjacency list does not come back as a nullptr, it must have a linked list it's pointing to
+        else {
+            //Lets set a temporary LinkedListNode pointer to where the adjacency list is pointing to
+            LinkedListNode *TemporaryHead = AdjacencyList.at(
+                    SourceVertexes.at(i).GetIndexID()).GetPointerToCorrespondingLinkedList();
+
+            //We need to travel down the linked list as well, so use a while loop to keep going down the neighbors
+            while (TemporaryHead != nullptr) {
+                //We need to decrement all neighbors edge counts
+                AdjacencyList.at(TemporaryHead->GetIndexID()).SetIncomingEdgesCount(
+                        AdjacencyList.at(TemporaryHead->GetIndexID()).GetIncomingEdgesCount() - 1);
+
+                //Travel down the linked list
+                TemporaryHead = TemporaryHead->GetNextNodePointer();
+            }
+            //We've broken the while loop so we must have processed the last neighbor (which would have pointed next to a nullptr)
+        }
+    }
+
+
+
+
+    //while our queue is not empty
+    while (OurTopologicalSortQueue.size() > 0)
     {
-        //If the incoming edge count of a particular client/graph node in the adjacency list is 0..
-        if (AdjacencyList.at(i).GetIncomingEdgesCount() == 0)
+        //We need to walk through the adjacency list
+        for (int i = 0; i < AdjacencyList.size(); i++)
         {
-            //We push that client/graph node into our queue
-            OurTopologicalSortQueue.push(AdjacencyList.at(i));
-
-            //While the size of our queue is greater than 0
-            while(OurTopologicalSortQueue.size() > 0)
+            //If the incoming edge count of a particular client/graph node in the adjacency list is 0..
+            if (AdjacencyList.at(i).GetIncomingEdgesCount() == 0 && AdjacencyList.at(i).GetHasItBeenSeenBefore() == false)
             {
-                //We need to capture whatever is in front of the queue
-                Data OurTemporaryHolderForDataInQueue = OurTopologicalSortQueue.front();
-                //Push what is in front of the queue to the vector that will store the topological sorted graph
-                TopologicallySortedGraph.push_back(OurTemporaryHolderForDataInQueue);
-                //pop the front element in the queue to get the element that was inserted after it (remember a queue is a FIFO structure)
-                OurTopologicalSortQueue.pop();
-                //If the data that was represented at the front of our queue was not marked as seen before
-                if (AdjacencyList.at(OurTemporaryHolderForDataInQueue.GetIndexID()).GetHasItBeenSeenBefore()==false)
+                //We push that client/graph node into our queue
+                OurTopologicalSortQueue.push(AdjacencyList.at(i));
+                //We need to mark it as seen before
+                AdjacencyList.at(i).SetHasItBeenSeenBefore(true);
+
+                //We then need to check if it has neighbors
+                if (AdjacencyList.at(i).GetPointerToCorrespondingLinkedList() == nullptr)
                 {
-                    //We need to mark it as seen
-                    AdjacencyList.at(OurTemporaryHolderForDataInQueue.GetIndexID()).SetHasItBeenSeenBefore(true);
+                    cout << "Client " << AdjacencyList.at(i).GetIndexID() + 1 << " does not have any neighbors" << endl;
+                }
+                    //If the temporary pointer to the adjacency list does not come back as a nullptr, it must have a linked list it's pointing to
+                else
+                {
+                    //Lets set a temporary LinkedListNode pointer to where the adjacency list is pointing to
+                    LinkedListNode *TemporaryHead2 = AdjacencyList.at(i).GetPointerToCorrespondingLinkedList();
 
-                    //If this client has no neighbors we would expect to see a nullptr
-                    if (AdjacencyList.at(OurTemporaryHolderForDataInQueue.GetIndexID()).GetPointerToCorrespondingLinkedList() == nullptr)
+                    //We need to travel down the linked list as well, so use a while loop to keep going down the neighbors
+                    while (TemporaryHead2 != nullptr)
                     {
-                        cout << " Client " << AdjacencyList.at(OurTemporaryHolderForDataInQueue.GetIndexID()).GetIndexID() + 1 << " does not have any neighbors" << endl;
-                    }
-
-                    //Otherwise we should expect a linked list of neighbors
-                    else
-                    {
-                        //We then need to visit all of the neighbors for this particular client, so lets set a variable equal to the linked list
-                        LinkedListNode* TemporaryHead = AdjacencyList.at(OurTemporaryHolderForDataInQueue.GetIndexID()).GetPointerToCorrespondingLinkedList();
-
-                        while (TemporaryHead != nullptr)
-                        {
-
                         //We need to decrement all neighbors edge counts
-                        AdjacencyList.at(TemporaryHead->GetIndexID()).SetIncomingEdgesCount(AdjacencyList.at(TemporaryHead->GetIndexID()).GetIncomingEdgesCount() - 1);
-
-                        //any neighbors that have edge counts equal to zero also need to be pushed into the queue
-                        //IF STATEMENT MAY NOT NEED TO BE HERE WITH QUEUE WHILE LOOP
-                        /*
-                        if (AdjacencyList.at(TemporaryHead->GetIndexID()).GetIncomingEdgesCount() == 0)
-                        {
-                            //Push what is held at the adjacency list (using the linked list reference) into the queue
-                            OurTopologicalSortQueue.push(AdjacencyList.at(TemporaryHead->GetIndexID()));
-                            //Since we are accounting for neighbors that have edge counts equal to zero and have pushed them into the queue, we need to mark them as seen so we don't process them again
-                            AdjacencyList.at(TemporaryHead->GetIndexID()).SetHasItBeenSeenBefore(true);
-                        }
-                         */
-
+                        AdjacencyList.at(TemporaryHead2->GetIndexID()).SetIncomingEdgesCount(
+                                AdjacencyList.at(TemporaryHead2->GetIndexID()).GetIncomingEdgesCount() - 1);
 
                         //Travel down the linked list
-                        TemporaryHead = TemporaryHead->GetNextNodePointer();
-                        }
-
+                        TemporaryHead2 = TemporaryHead2->GetNextNodePointer();
                     }
-
-
+                    //We've broken the while loop so we must have processed the last neighbor (which would have pointed next to a nullptr)
                 }
 
             }
 
-            /*
-            //Set that client in the adjacency list as seen before by this topological sort
-            AdjacencyList.at(i).SetHasItBeenSeenBefore(true);
-
-            //We then need to decrement that graph node's neighbor's edge counts by one. Note how in our adjacency list all neighbors are attached to this client in it's linked list
-            //if it has a neighbor, the corresponding linked list pointer will not be null
-            if (AdjacencyList.at(i).GetPointerToCorrespondingLinkedList() != nullptr)
-            {
-                //Make a temporary pointer to that neighbor
-                LinkedListNode* TemporaryHead = AdjacencyList.at(i).GetPointerToCorrespondingLinkedList();
-                //Get that neighbors reference index back to the adjacency graph
-                int IndexReference = TemporaryHead->GetIndexID();
-                //Correct the incoming edge count at the adjacency list of that neighbor in this linked list
-                AdjacencyList.at(IndexReference).SetIncomingEdgesCount(AdjacencyList.at(IndexReference).GetIncomingEdgesCount() - 1);
-
-                //If there's another node in the linked list
-                while (TemporaryHead->GetNextNodePointer() != nullptr)
-                {
-                    //Move to it
-                    TemporaryHead = TemporaryHead->GetNextNodePointer();
-                    //And do the same thing as the lines above
-                    IndexReference = TemporaryHead->GetIndexID();
-                    AdjacencyList.at(IndexReference).SetIncomingEdgesCount(AdjacencyList.at(IndexReference).GetIncomingEdgesCount() - 1);
-                }
-                //Once we break this while loop we know there are no more nodes in the linked list to process
-            }
-
-            else
-            {
-                cout << "Client " << AdjacencyList.at(i).GetIndexID() << "at index position in the adjacency list " << i << " does not have any neighbors to decrement and has zero incoming edges" << endl;
-            }
-            //We now have handled decrementing the neighbors one particular client that has zero incoming edges
-                */
         }
-
-
-
-
-    }
-    //Once we have walked through the entire adjacency list, we may have affected edge counts in later iterations of the for loop of iterations that were near the beginning of the for loop
-    //How do we account for that????????????????????????
-
-    //While the queue isn't empty, we need to do the logic that is inside this while loop
-    while (!OurTopologicalSortQueue.empty())
-    {
         //We need to capture whatever is in front of the queue
         Data OurTemporaryHolderForDataInQueue = OurTopologicalSortQueue.front();
         //Push what is in front of the queue to the vector that will store the topological sorted graph
@@ -340,7 +318,10 @@ vector<Data> Graph::TopologicalSort()
     }
 
     return TopologicallySortedGraph;
+
 }
+
+
 
 void Graph::PrintGraph()
 {
