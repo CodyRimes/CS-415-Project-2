@@ -250,10 +250,10 @@ vector<Data> Graph::TopologicalSort()
             //cout << "Client " << AdjacencyList.at(SourceVertexes.at(i).GetIndexID()).GetIndexID() + 1 << " does not have any neighbors" << endl;
         }
             //If the temporary pointer to the adjacency list does not come back as a nullptr, it must have a linked list it's pointing to
-        else {
+        else
+            {
             //Lets set a temporary LinkedListNode pointer to where the adjacency list is pointing to
-            LinkedListNode *TemporaryHead = AdjacencyList.at(
-                    SourceVertexes.at(i).GetIndexID()).GetPointerToCorrespondingLinkedList();
+            LinkedListNode *TemporaryHead = AdjacencyList.at(SourceVertexes.at(i).GetIndexID()).GetPointerToCorrespondingLinkedList();
 
             //We need to travel down the linked list as well, so use a while loop to keep going down the neighbors
             while (TemporaryHead != nullptr)
@@ -380,17 +380,19 @@ void Graph::GetMaxPath()
     TopologicallySortedGraph = this->TopologicalSort();
 
     //Make sure the vector that holds all sum values is the same size as the topologically sorted vector
-    SumValues.resize(TopologicallySortedGraph.size());
+    SumValuesAKAFvalues.resize(TopologicallySortedGraph.size());
 
     //Make sure the vector that holds all sum positions is the same size as the topologically sorted vector
-    PositionsOfSumValues.resize(TopologicallySortedGraph.size());
+    PositionsOfSumValuesAKAFvalues.resize(TopologicallySortedGraph.size());
 
     //Declare the variables that will be used to hold the values we will be pushing into their appropriate vectors
     int LargestNeighborValue = 0;
+    int FValueSum = 0;
     int LargestNeighborIndexPosition = 0;
 
     //We need to walk through the topologically sorted vector in reverse
-    for (int i = TopologicallySortedGraph.size() - 1; i > 0; i--) {
+    for (int i = TopologicallySortedGraph.size() - 1; i >= 0; i--)
+    {
 
         //Take the maximum value of the  neighbor of the vertex we're at, and sum it with the vertex we're at and store it in the sum values vector
         //Check the adjacency linked list to see if the node we want even has a linked list
@@ -401,23 +403,32 @@ void Graph::GetMaxPath()
             LargestNeighborValue = AdjacencyList.at(TopologicallySortedGraph.at(i).GetIndexID()).GetAmountWillingToPay();
             //And capture the index position of that neighbor's position in the adjacency list
             LargestNeighborIndexPosition = AdjacencyList.at(TopologicallySortedGraph.at(i).GetIndexID()).GetIndexID();
+
+
+            //Now that we have the Largest Neighbor's value for this particular vertex we are at in our topologically sorted vector, we now need to place it into the appropriate vector at the appropriate position
+            SumValuesAKAFvalues.at(i) = LargestNeighborValue;
+            //Now that we have the Largest Neighbor's index position for this particular vertex we are at in our topologically sorted vector, we now need to place it into the appropriate vector at the appropriate position
+            PositionsOfSumValuesAKAFvalues.at(i) = LargestNeighborIndexPosition;
         }
             //If the else statement runs we have a linked list to check the maximum value for
         else
-            {
+        {
             //Lets set a temporary LinkedListNode pointer to where the adjacency list is pointing to
             LinkedListNode *TemporaryHead3 = AdjacencyList.at(TopologicallySortedGraph.at(i).GetIndexID()).GetPointerToCorrespondingLinkedList();
+
+            LargestNeighborValue = 0;
 
             //We need to travel down the linked list as well, so use a while loop to keep going down the neighbors list
             while (TemporaryHead3 != nullptr)
             {
                 //We need compare if the node we're at has a larger value than our holder variable, if it does, set the holder variable to that larger value
-                if (AdjacencyList.at(TemporaryHead3->GetIndexID()).GetAmountWillingToPay() > LargestNeighborValue);
+                //////////////////////////////////IF WE CHANGE THE COMPARISON OPERATOR WHY DOES IT RUN!!!!!!!!!!!!
+                if (AdjacencyList.at(TemporaryHead3->GetIndexID()).GetAmountWillingToPay() > LargestNeighborValue)
                 {
                     //Store the largest value we've seen so far
-                    LargestNeighborValue = AdjacencyList.at(TemporaryHead3->GetIndexID()).GetAmountWillingToPay() + AdjacencyList.at(TopologicallySortedGraph.at(i).GetIndexID()).GetAmountWillingToPay();
+                    LargestNeighborValue = SumValuesAKAFvalues.at(TemporaryHead3->GetIndexID()) + AdjacencyList.at(TopologicallySortedGraph.at(i).GetIndexID()).GetAmountWillingToPay();
                     //Now set the Adjacency's list amount willing to pay with the summed value stored in LargestNeighborValue, so if we ever reference it again we'll get the correct value
-                    AdjacencyList.at(TemporaryHead3->GetIndexID()).SetAmountWillingToPay(LargestNeighborValue);
+                    //AdjacencyList.at(TemporaryHead3->GetIndexID()).SetAmountWillingToPay(LargestNeighborValue);
                     //And capture the index position of that neighbor's position in the adjacency list
                     LargestNeighborIndexPosition = AdjacencyList.at(TemporaryHead3->GetIndexID()).GetIndexID();
 
@@ -425,11 +436,13 @@ void Graph::GetMaxPath()
                 //Travel down the linked list
                 TemporaryHead3 = TemporaryHead3->GetNextNodePointer();
             }
+
+            //Now that we have the Largest Neighbor's value for this particular vertex we are at in our topologically sorted vector, we now need to place it into the appropriate vector at the appropriate position
+            SumValuesAKAFvalues.at(i) = LargestNeighborValue;
+            //Now that we have the Largest Neighbor's index position for this particular vertex we are at in our topologically sorted vector, we now need to place it into the appropriate vector at the appropriate position
+            PositionsOfSumValuesAKAFvalues.at(i) = LargestNeighborIndexPosition;
         }
-        //Now that we have the Largest Neighbor's value for this particular vertex we are at in our topologically sorted vector, we now need to place it into the appropriate vector at the appropriate position
-        SumValues.at(i) = LargestNeighborValue;
-        //Now that we have the Largest Neighbor's index position for this particular vertex we are at in our topologically sorted vector, we now need to place it into the appropriate vector at the appropriate position
-        PositionsOfSumValues.at(i) = LargestNeighborIndexPosition;
+
 
 
     }

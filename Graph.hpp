@@ -24,7 +24,6 @@ private:
     int NumberOfEdges;
     int NumberOfVertexNodes;
     vector <Data> AdjacencyList;
-    vector <Data> SourceVertexes;
     //Do we need these?
     GraphNode* StartNode;
     GraphNode* EndNode;
@@ -43,9 +42,11 @@ public:
     //Data GetMaxNeighbor(Data NodeToFindMaximumNeighborFor);
     void GetMaxPath();
     //Declaring a vector to hold sum values for optimal path
-    vector<int> SumValues;
+    vector<int> SumValuesAKAFvalues;
     //Declaring a vector to hold positions of max neighbor
-    vector<int> PositionsOfSumValues;
+    vector<int> PositionsOfSumValuesAKAFvalues;
+    vector <Data> SourceVertexes;
+
 
 
 };

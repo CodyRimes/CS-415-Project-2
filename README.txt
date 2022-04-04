@@ -3,13 +3,10 @@
 	- DAG is implemented in an adjacency list
 	- Topological sort uses a queue-based decrease-by-one design method
 
-Very close to finding the max path (implementation was a function called "GetMaxPath()" for the Graph class.
-Close but no cigar. Public vectors called "SumValues" and "PositionOfSumValues" implemented inside the Graph class had trouble towards the very front of the vector
-getting the right index position. 
 
 Topological sort, making edge connections for the directed acyclic graph, parsing input, a print function for the graph all
-work just fine. GetMaxPath() should also work if uncommented in main, however it doesn't functionally do what it's supposed
-to all the way. 
+work just fine. GetMaxPath() also works, and we are able to find the maximum revenue as well as the first node in the path. Could not figure
+our the logic to go down the path. Very close to a 100 percent finished product!!
 
 Graph.hpp represents the DAG
 Data.hpp represents the client and it's relative data
@@ -20,7 +17,6 @@ GraphNode.hpp is not used in the program and was a prototype in trying to implem
 and LinkedListNode.hpp give in one class. We had to break up the functionality into two different classes. 
 
 
-We were not able to save console output to an output file. Sending screenshots instead. Did not include a screenshot of Data9.txt
-as it was too large to screenshot.
+We were not able to save console output to an output file. 
 
 Thank you for all of your help on this project!
